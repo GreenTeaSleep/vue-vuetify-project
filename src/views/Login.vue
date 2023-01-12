@@ -82,21 +82,26 @@ export default {
         username: this.username,
         password: this.password,
       };
-      const result = await axios.post(
-        `${AUTH_API}/api/auth/users/login`,
-        dataUser
-      );
-      if (result.data.message) {
-        this.err = result.data.message;
-        this.loading = false;
-      } else {
-        this.err = "";
-        localStorage.setItem("token", result.data.token);
-        setTimeout(() => {
+
+      axios
+        .post(`${AUTH_API}/api/auth/users/login`, dataUser)
+        .then((result) => {
+          if (result.data.message) {
+            this.err = result.data.message;
+            this.loading = false;
+          } else {
+            this.err = "";
+            localStorage.setItem("token", result.data.token);
+            setTimeout(() => {
+              this.loading = false;
+              this.$router.push("/");
+            }, 2000);
+          }
+        })
+        .catch((err) => {
+          alert("Some Thing Wrong.");
           this.loading = false;
-          this.$router.push("/");
-        }, 1000);
-      }
+        });
     },
     required(v: any) {
       return !!v || "Field is required";

@@ -38,6 +38,12 @@
           value="about"
           to="/about"
         ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-forum"
+          title="กลุ่มวิสาหกิจชุมชน"
+          value="community"
+          to="/community"
+        ></v-list-item>
       </v-list>
     </v-list>
 
