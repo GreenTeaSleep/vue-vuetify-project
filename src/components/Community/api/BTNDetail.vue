@@ -3,19 +3,14 @@
     <v-col cols="auto">
       <v-dialog transition="dialog-bottom-transition">
         <template v-slot:activator="{ props }">
-          <v-badge
-            :content="comfirm_status == 0 ? 'รออนุมัติ' : 'ไม่อนุมัติ'"
-            :color="comfirm_status == 0 ? 'red' : 'gray'"
-          >
+          <v-badge :content="comfirm_status == 0 ? 'รออนุมัติ' : 'ไม่อนุมัติ'"
+            :color="comfirm_status == 0 ? 'red' : 'gray'">
             <v-btn color="info" v-bind="props"> รายละเอียด </v-btn>
           </v-badge>
         </template>
         <template v-slot:default="{ isActive }">
           <v-card class="mx-auto">
-            <v-toolbar
-              color="primary"
-              title="รายละเอียดวิสาหกิจชุมชน"
-            ></v-toolbar>
+            <v-toolbar color="primary" title="รายละเอียดวิสาหกิจชุมชน"></v-toolbar>
             <v-container>
               <v-card width="300" class="my-2">
                 <v-alert variant="outlined">
@@ -48,26 +43,16 @@
             </v-container>
 
             <v-card-actions class="justify-end">
-              <v-btn
-                variant="text"
-                color="success"
-                @click="
-                  {
-                    isActive.value = disapproved(commu_id, 1);
-                  }
-                "
-                >อนุมัติ</v-btn
-              >
-              <v-btn
-                variant="text"
-                color="red"
-                @click="
-                  {
-                    isActive.value = disapproved(commu_id, 3);
-                  }
-                "
-                >ไม่อนุมัติ</v-btn
-              >
+              <v-btn variant="text" color="success" @click="
+                {
+                  isActive.value = disapproved(commu_id, 1);
+                }
+              ">อนุมัติ</v-btn>
+              <v-btn variant="text" color="red" @click="
+                {
+                  isActive.value = disapproved(commu_id, 3);
+                }
+              ">ไม่อนุมัติ</v-btn>
               <v-btn variant="text" @click="isActive.value = false">ปิด</v-btn>
             </v-card-actions>
           </v-card>
@@ -81,7 +66,7 @@
 import { defineComponent } from "vue";
 import axios from "axios";
 
-const URL_API = "http://localhost:3001";
+const URL_API = "https://4fde-2405-9800-b560-2254-71d2-445b-dfa4-ebca.ap.ngrok.io";
 
 export default defineComponent({
   props: [

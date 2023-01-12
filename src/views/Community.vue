@@ -133,11 +133,11 @@
 import { defineComponent } from "vue";
 import axios from "axios";
 
-import SwitchToggle from "./api/SwitchToggle.vue";
-import BTNDetail from "./api/BTNDetail.vue";
-import VWindowItemAPI_Page2 from "./api/v-window-itemAPI-Page2.vue";
+import SwitchToggle from "@/components/Community/api/SwitchToggle.vue";
+import BTNDetail from "@/components/Community/api/BTNDetail.vue";
+import VWindowItemAPI_Page2 from "@/components/Community/api/v-window-itemAPI-Page2.vue";
 
-const URL_API = "http://localhost:3001";
+const URL_API = "https://4fde-2405-9800-b560-2254-71d2-445b-dfa4-ebca.ap.ngrok.io";
 
 export default defineComponent({
   components: {
