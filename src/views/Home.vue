@@ -1,7 +1,10 @@
 <template>
-  <HelloWorld />
+  <v-container class="fill-height">
+    <v-responsive class="d-flex align-center text-center fill-height">
+      <h1>Home</h1>
+    </v-responsive>
+  </v-container>
 </template>
 
 <script lang="ts" setup>
-  import HelloWorld from '@/components/HelloWorld.vue'
 </script>
