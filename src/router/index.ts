@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, Router, RouteRecordRaw } from "vue-router";
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     component: () => import("@/layouts/default/Default.vue"),
@@ -11,12 +11,12 @@ const routes = [
         component: () => import("@/views/Home.vue"),
       },
       {
-        path: "/about",
+        path: "about",
         name: "About",
         component: () => import("@/views/Category.vue"),
       },
       {
-        path: "/community",
+        path: "community",
         name: "Community",
         component: () => import("@/views/Community/Community.vue"),
       },
@@ -29,7 +29,7 @@ const routes = [
   },
 ];
 
-const router = createRouter({
+const router: Router = createRouter({
   history: createWebHistory(),
   routes,
 });
