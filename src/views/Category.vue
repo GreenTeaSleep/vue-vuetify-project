@@ -128,7 +128,7 @@ export default defineComponent({
       }, 2000);
     },
   },
-  async created() {
+  async mounted() {
     const result = await axios.get(`${URL_API}`);
     this.desserts = result.data;
   },

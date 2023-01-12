@@ -80,7 +80,7 @@ export default {
     },
   },
 
-  created() {
+  mounted() {
     if (localStorage.getItem("token") != null) this.$router.push("/");
   },
 };
