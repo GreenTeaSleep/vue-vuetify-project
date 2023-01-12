@@ -97,11 +97,16 @@ const URL_API = "http://localhost:3001/api/category";
 
 export default defineComponent({
   methods: {
+    async getDessrts() {
+      const result = await axios.get(`${URL_API}`);
+      this.desserts = result.data;
+    },
+
     async deleteData(id: any) {
       if (confirm("You want to delete the data right?") === true) {
-        console.log(id);
         await axios.delete(`${URL_API}/${id.toString()}`)
-        this.$router.go(0);
+
+        await this.getDessrts()
       }
     },
     editData(name: any) {
@@ -111,7 +116,8 @@ export default defineComponent({
       await axios.put(`${URL_API}/` + _id, {
         name: this.eName,
       });
-      this.$router.go(0);
+
+      await this.getDessrts()
     },
     async onSubmit() {
       if (!this.form) return;
@@ -121,7 +127,8 @@ export default defineComponent({
       await axios.post(`${URL_API}`, {
         name: this.name,
       });
-      this.$router.go(0);
+
+      await this.getDessrts()
 
       setTimeout(() => {
         this.loading = false;
@@ -129,8 +136,7 @@ export default defineComponent({
     },
   },
   async mounted() {
-    const result = await axios.get(`${URL_API}`);
-    this.desserts = result.data;
+    await this.getDessrts()
   },
   data: () => ({
     dialog: false,
