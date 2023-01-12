@@ -100,6 +100,7 @@ export default defineComponent({
   methods: {
     disapproved(id: any, status: any) {
       this.apprioved(id, status);
+      console.log("test 100");
       return false;
     },
     async apprioved(id: any, status: any) {
