@@ -52,6 +52,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import axios from "axios";
+import tambons from "@/assets/api_tambon.json"
 
 const URL_API = "https://4fde-2405-9800-b560-2254-71d2-445b-dfa4-ebca.ap.ngrok.io";
 
@@ -79,23 +80,12 @@ export default defineComponent({
     async test(v: any) {
       this.ampSelected = v.nameAMP;
 
-      const result = await axios.get(
-        "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_tambon.json"
-      );
-
-      const data = result.data;
-      this.tam = [{ id: "", nameTAM: "" }];
-
-      data.filter((item: { amphure_id: any; name_th: string; id: string }) => {
-        // @ts-ignore
-        if (item.amphure_id == v.id) {
-          this.tam.push({
-            id: item.id,
-            nameTAM: item.name_th,
-          });
+      this.tam = tambons.filter((tambon) => tambon.amphure_id === v.id).map((tambon) => {
+        return {
+          id: tambon.id.toString(),
+          nameTAM: tambon.name_th
         }
-      });
-      this.tam.shift();
+      })
 
       return true;
     },
