@@ -112,7 +112,7 @@ export default defineComponent({
     },
     async saveEditData(_id: any) {
       await axiosClient.put(`/category/${_id}`, {
-        name: this.name
+        name: this.eName
       })
 
       await this.getDessrts()
