@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :value="drawer" class="bg-deep-purple" theme="dark" permanent>
+  <v-navigation-drawer :model-value="drawer" class="bg-deep-purple" theme="dark" permanent>
     <v-list color="transparent">
       <div class="text-center">
         <v-avatar rounded="1" size="100" color="blue-darken-2">
