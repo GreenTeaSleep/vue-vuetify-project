@@ -10,13 +10,12 @@
         <v-list-item class="text-white" title="Yanfei" subtitle="Pyro"></v-list-item>
       </div>
 
-      <v-divider></v-divider>
+      <v-divider />
 
       <v-list density="compact" nav>
-        <v-list-item prepend-icon="mdi-view-dashboard" title="Home" value="home" to="/"></v-list-item>
-        <v-list-item prepend-icon="mdi-forum" title="ประเภทผลิตภัณฑ์" value="about" to="/about"></v-list-item>
-        <v-list-item prepend-icon="mdi-forum" title="กลุ่มวิสาหกิจชุมชน" value="community"
-          to="/community"></v-list-item>
+        <v-list-item prepend-icon="mdi-view-dashboard" title="Home" value="home" to="/" />
+        <v-list-item prepend-icon="mdi-forum" title="ประเภทผลิตภัณฑ์" value="about" to="/about" />
+        <v-list-item prepend-icon="mdi-forum" title="กลุ่มวิสาหกิจชุมชน" value="community" to="/community" />
       </v-list>
     </v-list>
 
@@ -38,7 +37,26 @@ export default defineComponent({
   data: () => ({
     loading: false,
   }),
+  mounted() {
+    this.btnToggleStatus()
+  },
+  watch:{
+    $route (){
+      this.btnToggleStatus()
+    }
+  }, 
   methods: {
+    btnToggleStatus() {
+      const fullPath = this.$route.fullPath
+      const menuList = Array.from(document.querySelectorAll('.v-list-item'))
+      menuList.shift()
+      
+      if (fullPath !== '/') {
+        menuList[0].classList.remove('v-list-item--active')
+      }else {
+        menuList[0].classList.add('v-list-item--active')
+      }
+    },
     logout() {
       if (confirm("คุณต้องการออกจากระบบ ?") == true) {
         this.loading = true;
