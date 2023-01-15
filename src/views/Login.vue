@@ -3,7 +3,6 @@
     <v-card class="mx-auto px-6 py-8" max-width="344">
       <div class="text-center">
         <v-avatar rounded="1" size="100" color="blue-darken-2">
-          <!-- <v-icon icon="mdi-alarm"></v-icon> -->
           <v-avatar color="grey" size="150" rounded="0">
             <v-img cover src="https://static.zerochan.net/Yanfei.full.3333732.jpg"></v-img>
           </v-avatar>
