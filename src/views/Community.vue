@@ -131,13 +131,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import axios from "axios";
+import axiosClient from "@/utils/axios";
 
 import SwitchToggle from "@/components/Community/api/SwitchToggle.vue";
 import BTNDetail from "@/components/Community/api/BTNDetail.vue";
 import VWindowItemAPI_Page2 from "@/components/Community/api/v-window-itemAPI-Page2.vue";
 
-const URL_API = "https://4fde-2405-9800-b560-2254-71d2-445b-dfa4-ebca.ap.ngrok.io";
 
 export default defineComponent({
   components: {
@@ -157,8 +156,8 @@ export default defineComponent({
   },
   methods: {
     async onCreated() {
-      const result = await axios.get(`${URL_API}/api/commu`);
-      this.community = result.data;
+      const { data } = await axiosClient.get('/commu')
+      this.community = data;
 
       this.community.filter((item) => {
         let target_copy = Object.assign({}, item);
@@ -170,7 +169,8 @@ export default defineComponent({
           this.commu_approved.push(target_copy);
         }
       });
-      const result_pending = await axios.get(`${URL_API}/api/commu/pending-cf`);
+
+      const result_pending = await axiosClient.get('/commu/pending-cf')
       this.commu_pending = result_pending.data;
     },
   },

@@ -91,20 +91,18 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import axios from "axios";
-
-const URL_API = "http://localhost:3001/api/category";
+import axiosClient from "@/utils/axios";
 
 export default defineComponent({
   methods: {
     async getDessrts() {
-      const result = await axios.get(`${URL_API}`);
-      this.desserts = result.data;
+      const { data } = await axiosClient.get('/category')
+      this.desserts = data;
     },
 
     async deleteData(id: any) {
       if (confirm("You want to delete the data right?") === true) {
-        await axios.delete(`${URL_API}/${id.toString()}`)
+        await axiosClient.delete(`category/${id.toString()}`)
 
         await this.getDessrts()
       }
@@ -113,9 +111,9 @@ export default defineComponent({
       this.eName = name;
     },
     async saveEditData(_id: any) {
-      await axios.put(`${URL_API}/` + _id, {
-        name: this.eName,
-      });
+      await axiosClient.put(`/category/${_id}`, {
+        name: this.name
+      })
 
       await this.getDessrts()
     },
@@ -124,9 +122,9 @@ export default defineComponent({
 
       this.loading = true;
 
-      await axios.post(`${URL_API}`, {
+      await axiosClient.post('/category', {
         name: this.name,
-      });
+      })
 
       await this.getDessrts()
 

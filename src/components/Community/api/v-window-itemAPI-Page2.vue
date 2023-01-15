@@ -52,9 +52,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import axios from "axios";
-import tambons from "@/assets/api_tambon.json"
+import axiosClient from "@/utils/axios";
 
-const URL_API = "https://4fde-2405-9800-b560-2254-71d2-445b-dfa4-ebca.ap.ngrok.io";
+import tambons from "@/assets/api_tambon.json"
 
 export default defineComponent({
   props: ["val2"],
@@ -116,11 +116,8 @@ export default defineComponent({
         tam: this.tamSelected,
         confirm_status: 1,
       };
-      const result = await axios.post(
-        `${URL_API}/api/auth/users-community`,
-        dataCommu
-      );
-      console.log(result);
+      await axiosClient.post('/auth/users-community', dataCommu)
+
       this.$router.go(0);
     },
     clearError() {
@@ -128,10 +125,10 @@ export default defineComponent({
     },
   },
   async mounted() {
-    const result = await axios.get(
+    const { data } = await axios.get(
       "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_amphure.json"
     );
-    let data = result.data;
+
     data.filter(
       (item: { province_id: string; name_th: string; id: string }) => {
         if (

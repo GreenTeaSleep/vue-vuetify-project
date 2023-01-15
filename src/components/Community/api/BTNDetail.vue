@@ -64,9 +64,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import axios from "axios";
-
-const URL_API = "https://4fde-2405-9800-b560-2254-71d2-445b-dfa4-ebca.ap.ngrok.io";
+import axiosClient from "@/utils/axios";
 
 export default defineComponent({
   props: [
@@ -89,9 +87,9 @@ export default defineComponent({
       return false;
     },
     async apprioved(id: any, status: any) {
-      await axios.put(`${URL_API}/api/commu/${id}`, {
+      await axiosClient.put(`/commu/${id}`, {
         confirm_status: status,
-      });
+      })
       this.$router.go(0);
     },
   },
