@@ -18,11 +18,6 @@ export default [
         name: "community",
         component: () => import("@/views/Community.vue"),
       },
-      {
-        path: "data-table",
-        name: "DataTable",
-        component: () => import("@/views/DataTable.vue"),
-      },
     ],
   },
   {

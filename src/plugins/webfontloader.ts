@@ -11,11 +11,11 @@ export async function loadFonts() {
 
   webFontLoader.load({
     google: {
-      families: ["Roboto:100,300,400,500,700,900&display=swap"],
+      families: ["Noto Sans Thai:400", "sans-serif"],
     },
     custom: {
       families: ["Noto Sans Thai", "sans-serif"],
-      urls: ["/src/style/custom.css"],
+      urls: ["/src/style/main.css"],
     },
   });
 }

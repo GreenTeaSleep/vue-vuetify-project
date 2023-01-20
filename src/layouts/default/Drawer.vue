@@ -1,21 +1,40 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <v-navigation-drawer v-model="drawer" class="bg-deep-purple" theme="dark" permanent>
+  <v-navigation-drawer
+    v-model="drawer"
+    class="bg-deep-purple"
+    theme="dark"
+    permanent
+  >
     <v-list color="transparent">
       <div class="text-center">
         <v-avatar rounded="1" size="100" color="blue-darken-2">
           <v-avatar color="grey" size="150" rounded="0">
-            <v-img cover src="https://static.zerochan.net/Yanfei.full.3333732.jpg"></v-img>
+            <v-img
+              cover
+              src="https://static.zerochan.net/Yanfei.full.3333732.jpg"
+            ></v-img>
           </v-avatar>
         </v-avatar>
-        <v-list-item class="text-white" title="Yanfei" subtitle="Pyro"></v-list-item>
+        <v-list-item
+          class="text-white"
+          title="Yanfei"
+          subtitle="Pyro"
+        ></v-list-item>
       </div>
 
       <v-divider></v-divider>
 
       <v-list density="compact" nav>
-        <v-list-item @click="toggle(item.path)" v-for="item in items" :key="item.icon" :prepend-icon="item.icon"
-          :title="item.title" :value="item.value" :to="item.path"></v-list-item>
+        <v-list-item
+          @click="toggle(item.path)"
+          v-for="item in items"
+          :key="item.icon"
+          :prepend-icon="item.icon"
+          :title="item.title"
+          :value="item.value"
+          :to="item.path"
+        ></v-list-item>
       </v-list>
     </v-list>
 
@@ -38,26 +57,34 @@ export default defineComponent({
     loading: false,
     items: [
       { icon: "mdi-view-dashboard", title: "Home", value: "home", path: "/" },
-      { icon: "mdi-account-group", title: "กลุ่มวิสาหกิจชุมชน", value: "community", path: "/community" },
-      { icon: "mdi-file-document-outline", title: "ประเภทผลิตภัณฑ์", value: "category", path: "/category" },
-      { icon: "mdi-file-document-outline", title: "Data Table", value: "dataTable", path: "/data-table" },
+      {
+        icon: "mdi-account-group",
+        title: "กลุ่มวิสาหกิจชุมชน",
+        value: "community",
+        path: "/community",
+      },
+      {
+        icon: "mdi-file-document-outline",
+        title: "ประเภทผลิตภัณฑ์",
+        value: "category",
+        path: "/category",
+      },
     ],
-    nowPath: '',
+    nowPath: "",
   }),
   mounted() {
-    this.toggle(this.$route.fullPath)
+    this.toggle(this.$route.fullPath);
   },
   methods: {
     toggle(v: any) {
-      let arr = Array.from(document.querySelectorAll('.v-list-item'))
-      arr.shift()
-      if (v != '/') {
-        arr[0].classList.remove('v-list-item--active')
-        return
+      let arr = Array.from(document.querySelectorAll(".v-list-item"));
+      arr.shift();
+      if (v != "/") {
+        arr[0].classList.remove("v-list-item--active");
+        return;
       } else {
-        arr[0].classList.add('v-list-item--active')
+        arr[0].classList.add("v-list-item--active");
       }
-
     },
     logout() {
       if (confirm("คุณต้องการออกจากระบบ ?") == true) {

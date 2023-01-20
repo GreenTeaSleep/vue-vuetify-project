@@ -2,9 +2,13 @@
   <v-container class="fill-height mr-10">
     <v-card>
       <v-tabs v-model="tab" bg-color="primary">
-        <v-tab v-for="item in items" :key="item.tab" :value="item.tab">{{
-          item.title
-        }}</v-tab>
+        <v-tab
+          v-for="item in items"
+          :key="item.tab"
+          :value="item.tab"
+          :prepend-icon="item.icon"
+          >{{ item.title }}</v-tab
+        >
       </v-tabs>
 
       <v-card-text>
@@ -45,10 +49,30 @@ export default defineComponent({
   data: () => ({
     tab: null,
     items: [
-      { tab: "one", title: "กลุ่มวิสาหกิจชุมชน", data: [] },
-      { tab: "two", title: "อนุมัติแล้ว", data: [] },
-      { tab: "three", title: "รออนุมัติ", data: [] },
-      { tab: "four", title: "เพิ่มวิสาหกิจชุมชน", data: [] },
+      {
+        tab: "one",
+        title: "กลุ่มวิสาหกิจชุมชน",
+        icon: "mdi-account-group",
+        data: [],
+      },
+      {
+        tab: "two",
+        title: "อนุมัติแล้ว",
+        icon: "mdi-check-decagram",
+        data: [],
+      },
+      {
+        tab: "three",
+        title: "รออนุมัติ",
+        icon: "mdi-account-clock",
+        data: [],
+      },
+      {
+        tab: "four",
+        title: "เพิ่มวิสาหกิจชุมชน",
+        icon: "mdi-account-plus",
+        data: [],
+      },
     ],
   }),
   async mounted() {
@@ -69,21 +93,11 @@ export default defineComponent({
 </script>
 
 <style>
-.custom_two {
-  margin-right: 4px;
-  background-color: darkgreen;
-  color: white;
-  padding: 2px;
-  font-size: 1px;
-  border-radius: 50px;
+.mdi-check-decagram {
+  color: greenyellow;
 }
 
-.custom_three {
-  margin-right: 4px;
-  background-color: red;
-  color: white;
-  padding: 2px;
-  font-size: 1px;
-  border-radius: 50px;
+.mdi-account-clock {
+  color: rgb(252, 100, 100);
 }
 </style>
