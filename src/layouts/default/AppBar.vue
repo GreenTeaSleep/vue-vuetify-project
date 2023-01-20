@@ -1,4 +1,5 @@
 <template>
+  <DefaultDrawer :drawer="drawer" />
   <v-app-bar color="primary" density="compact" flat>
     <v-app-bar-nav-icon
       variant="text"
@@ -9,7 +10,6 @@
       Base Preset
     </v-app-bar-title>
   </v-app-bar>
-  <DefaultDrawer :drawer="drawer" />
 </template>
 
 <script lang="ts">

@@ -1,7 +1,7 @@
 <template v-slot:default="{ isActive }">
   <v-switch
     hide-details
-    class="d-inline-block"
+    class="d-flex-inline switch-center"
     :color="'success'"
     :model-value="confirm_status == 1 ? true : false"
     @click="
@@ -167,31 +167,29 @@ export default defineComponent({
     },
     async changeStatus(id: any, confirm_status: any) {
       if (confirm_status == 1) {
-        await axiosClient.put(`/commu/${id}`, {
+        await axiosClient.put(`/commu/` + id, {
           confirm_status: 2,
         });
         this.$router.go(0);
       } else {
-        await axiosClient.put(`/commu/${id}`, {
+        await axiosClient.put(`/commu/` + id, {
           confirm_status: 1,
         });
-
         this.$router.go(0);
       }
     },
     async editData(_id: any) {
-      const { data } = await axiosClient.get(`/commu/${_id}`);
-      const usersCommunity = await axiosClient.get(
+      const dataCommu = await axiosClient.get(`/commu/${_id}`);
+      const dataUserCommu = await axiosClient.get(
         `/auth/users-community/edit/${_id}`
       );
+      this.username = dataUserCommu.data.username;
+      this.full_name = dataUserCommu.data.full_name;
 
-      this.username = usersCommunity.data.username;
-      this.full_name = usersCommunity.data.full_name;
-
-      this.shop_name = data.name;
-      this.mobile = data.mobile;
-      this.address = data.address;
-      this.regis_code = data.regis_code;
+      this.shop_name = dataCommu.data.name;
+      this.mobile = dataCommu.data.mobile;
+      this.address = dataCommu.data.address;
+      this.regis_code = dataCommu.data.regis_code;
     },
     saveEditData(_id: any) {
       if (this.err) {
@@ -204,19 +202,17 @@ export default defineComponent({
       }
     },
     async saveData(_id: any) {
-      await axiosClient.put(`/commu/${_id}`, {
+      await axiosClient.put(`/commu/` + _id, {
         name: this.shop_name,
         address: this.address,
         mobile: this.mobile,
         regis_code: this.regis_code,
       });
-
-      await axiosClient.put(`/auth/users-community/${_id}`, {
+      await axiosClient.put(`/auth/users-community/` + _id, {
         users_commu_id: _id,
         full_name: this.full_name,
         password: this.password,
       });
-
       this.$router.go(0);
     },
   },

@@ -1,5 +1,6 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <v-navigation-drawer :model-value="drawer" class="bg-deep-purple" theme="dark" permanent>
+  <v-navigation-drawer v-model="drawer" class="bg-deep-purple" theme="dark" permanent>
     <v-list color="transparent">
       <div class="text-center">
         <v-avatar rounded="1" size="100" color="blue-darken-2">
@@ -10,12 +11,11 @@
         <v-list-item class="text-white" title="Yanfei" subtitle="Pyro"></v-list-item>
       </div>
 
-      <v-divider />
+      <v-divider></v-divider>
 
       <v-list density="compact" nav>
-        <v-list-item prepend-icon="mdi-view-dashboard" title="Home" value="home" to="/" />
-        <v-list-item prepend-icon="mdi-forum" title="ประเภทผลิตภัณฑ์" value="about" to="/about" />
-        <v-list-item prepend-icon="mdi-forum" title="กลุ่มวิสาหกิจชุมชน" value="community" to="/community" />
+        <v-list-item @click="toggle(item.path)" v-for="item in items" :key="item.icon" :prepend-icon="item.icon"
+          :title="item.title" :value="item.value" :to="item.path"></v-list-item>
       </v-list>
     </v-list>
 
@@ -36,26 +36,28 @@ export default defineComponent({
   props: ["drawer"],
   data: () => ({
     loading: false,
+    items: [
+      { icon: "mdi-view-dashboard", title: "Home", value: "home", path: "/" },
+      { icon: "mdi-account-group", title: "กลุ่มวิสาหกิจชุมชน", value: "community", path: "/community" },
+      { icon: "mdi-file-document-outline", title: "ประเภทผลิตภัณฑ์", value: "category", path: "/category" },
+      { icon: "mdi-file-document-outline", title: "Data Table", value: "dataTable", path: "/data-table" },
+    ],
+    nowPath: '',
   }),
   mounted() {
-    this.btnToggleStatus()
+    this.toggle(this.$route.fullPath)
   },
-  watch:{
-    $route (){
-      this.btnToggleStatus()
-    }
-  }, 
   methods: {
-    btnToggleStatus() {
-      const fullPath = this.$route.fullPath
-      const menuList = Array.from(document.querySelectorAll('.v-list-item'))
-      menuList.shift()
-      
-      if (fullPath !== '/') {
-        menuList[0].classList.remove('v-list-item--active')
-      }else {
-        menuList[0].classList.add('v-list-item--active')
+    toggle(v: any) {
+      let arr = Array.from(document.querySelectorAll('.v-list-item'))
+      arr.shift()
+      if (v != '/') {
+        arr[0].classList.remove('v-list-item--active')
+        return
+      } else {
+        arr[0].classList.add('v-list-item--active')
       }
+
     },
     logout() {
       if (confirm("คุณต้องการออกจากระบบ ?") == true) {

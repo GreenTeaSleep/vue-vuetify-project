@@ -8,36 +8,92 @@
         <v-col cols="12" sm="12" md="6">
           <v-card class="mx-auto" title="ข้อมูลผู้ใช้">
             <v-container>
-              <v-text-field v-model="username" color="primary" label="ชื่อผู้ใช้" variant="underlined"></v-text-field>
+              <v-text-field
+                v-model="username"
+                color="primary"
+                label="ชื่อผู้ใช้"
+                variant="underlined"
+              ></v-text-field>
 
-              <v-text-field v-model="password" color="primary" label="รหัสผ่าน" variant="underlined" type="password"
-                @input="clearError"></v-text-field>
+              <v-text-field
+                v-model="password"
+                color="primary"
+                label="รหัสผ่าน"
+                variant="underlined"
+                type="password"
+                @input="clearError"
+              ></v-text-field>
 
-              <v-text-field v-model="cfPassword" color="primary" label="ยืนยันรหัสผ่าน" variant="underlined"
-                type="password" @input="clearError"></v-text-field>
+              <v-text-field
+                v-model="cfPassword"
+                color="primary"
+                label="ยืนยันรหัสผ่าน"
+                variant="underlined"
+                type="password"
+                @input="clearError"
+              ></v-text-field>
 
-              <v-text-field v-model="full_name" color="primary" label="ชื่อเต็ม" variant="underlined"></v-text-field>
+              <v-text-field
+                v-model="full_name"
+                color="primary"
+                label="ชื่อเต็ม"
+                variant="underlined"
+              ></v-text-field>
             </v-container>
           </v-card>
         </v-col>
         <v-col cols="12" sm="12" md="6">
           <v-card class="mx-auto" title="ข้อมูลกลุ่มวิสาหกิจชุมชน">
             <v-container>
-              <v-text-field v-model="name" color="primary" label="ชื่อวิสาหกิจชุมชน"
-                variant="underlined"></v-text-field>
+              <v-text-field
+                v-model="name"
+                color="primary"
+                label="ชื่อวิสาหกิจชุมชน"
+                variant="underlined"
+              ></v-text-field>
 
-              <v-select v-model="selected_AMP" label="อำเภอ" :items="amp" variant="underlined" item-title="nameAMP"
-                item-value="id" :return-object="true" :rules="[test]"></v-select>
+              <v-select
+                v-model="selected_AMP"
+                label="อำเภอ"
+                :items="amp"
+                variant="underlined"
+                item-title="nameAMP"
+                item-value="id"
+                :return-object="true"
+                :rules="[test]"
+              ></v-select>
 
-              <v-select v-model="selected_TAM" label="ตำบล" :items="tam" variant="underlined" item-title="nameTAM"
-                item-value="id" :return-object="true" :rules="[test2]"></v-select>
+              <v-select
+                v-model="selected_TAM"
+                label="ตำบล"
+                :items="tam"
+                variant="underlined"
+                item-title="nameTAM"
+                item-value="id"
+                :return-object="true"
+                :rules="[test2]"
+              ></v-select>
 
-              <v-text-field v-model="address" color="primary" label="ที่อยู่" variant="underlined"></v-text-field>
+              <v-text-field
+                v-model="address"
+                color="primary"
+                label="ที่อยู่"
+                variant="underlined"
+              ></v-text-field>
 
-              <v-text-field v-model="mobile" color="primary" label="โทรศัพท์" variant="underlined"></v-text-field>
+              <v-text-field
+                v-model="mobile"
+                color="primary"
+                label="โทรศัพท์"
+                variant="underlined"
+              ></v-text-field>
 
-              <v-text-field v-model="regis_code" color="primary" label="รหัสทะเบียน"
-                variant="underlined"></v-text-field>
+              <v-text-field
+                v-model="regis_code"
+                color="primary"
+                label="รหัสทะเบียน"
+                variant="underlined"
+              ></v-text-field>
             </v-container>
           </v-card>
         </v-col>
@@ -51,10 +107,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import axios from "axios";
 import axiosClient from "@/utils/axios";
 
-import tambons from "@/assets/api_tambon.json"
+import tambons from "@/assets/api_tambon.json";
 
 export default defineComponent({
   props: ["val2"],
@@ -80,12 +135,14 @@ export default defineComponent({
     async test(v: any) {
       this.ampSelected = v.nameAMP;
 
-      this.tam = tambons.filter((tambon) => tambon.amphure_id === v.id).map((tambon) => {
-        return {
-          id: tambon.id.toString(),
-          nameTAM: tambon.name_th
-        }
-      })
+      this.tam = tambons
+        .filter((tambon) => tambon.amphure_id === v.id)
+        .map((tambon) => {
+          return {
+            id: tambon.id.toString(),
+            nameTAM: tambon.name_th,
+          };
+        });
 
       return true;
     },
@@ -116,7 +173,7 @@ export default defineComponent({
         tam: this.tamSelected,
         confirm_status: 1,
       };
-      await axiosClient.post('/auth/users-community', dataCommu)
+      await axiosClient.post("/auth/users-community", dataCommu);
 
       this.$router.go(0);
     },
@@ -125,7 +182,7 @@ export default defineComponent({
     },
   },
   async mounted() {
-    const { data } = await axios.get(
+    const { data } = await axiosClient.get(
       "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_amphure.json"
     );
 

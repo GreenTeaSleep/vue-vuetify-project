@@ -1,5 +1,3 @@
-<!-- หลัก -->
-
 <template>
   <v-main>
     <router-view />
@@ -10,7 +8,6 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "View",
   data() {
     return {
       user: null,
