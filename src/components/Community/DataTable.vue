@@ -281,7 +281,6 @@ export default {
     save(commu_id: any) {
       if (this.errPassword) {
         alert(this.errPassword);
-        this.close();
       } else if (
         this.editedItem.password != "" &&
         this.editedItem.cfPassword == ""

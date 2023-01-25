@@ -145,7 +145,7 @@ export default defineComponent({
 
     async deleteData(id: any) {
       if (confirm("You want to delete the data right?") === true) {
-        await axiosClient.delete(`category/${id.toString()}`);
+        await axiosClient.delete(`/category/${id.toString()}`);
         await this.getDessrts();
       }
     },
@@ -171,6 +171,7 @@ export default defineComponent({
 
       setTimeout(() => {
         this.loading = false;
+        this.tab = "one";
       }, 2000);
     },
   },
