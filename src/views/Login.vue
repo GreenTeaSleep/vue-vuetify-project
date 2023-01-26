@@ -4,52 +4,24 @@
       <div class="text-center">
         <v-avatar rounded="1" size="100" color="blue-darken-2">
           <v-avatar color="grey" size="150" rounded="0">
-            <v-img
-              cover
-              src="https://static.zerochan.net/Yanfei.full.3333732.jpg"
-            ></v-img>
+            <v-img cover src="https://static.zerochan.net/Yanfei.full.3333732.jpg"></v-img>
           </v-avatar>
         </v-avatar>
-        <v-list-item
-          class="text-white"
-          title="Yanfei"
-          subtitle="Pyro"
-        ></v-list-item>
+        <v-list-item class="text-white" title="Yanfei" subtitle="Pyro"></v-list-item>
       </div>
 
       <v-alert class="mb-5" v-if="err" type="error">{{ err }}</v-alert>
 
       <v-form v-model="form" @submit.prevent="onSubmit">
-        <v-text-field
-          v-model="username"
-          :readonly="loading"
-          :rules="[required]"
-          class="mb-2"
-          clearable
-          label="Username"
-        ></v-text-field>
+        <v-text-field v-model="username" :readonly="loading" :rules="[required]" class="mb-2" clearable
+          label="Username"></v-text-field>
 
-        <v-text-field
-          v-model="password"
-          :readonly="loading"
-          :rules="[required]"
-          type="password"
-          clearable
-          label="Password"
-          placeholder="Enter your password"
-        ></v-text-field>
+        <v-text-field v-model="password" :readonly="loading" :rules="[required]" type="password" clearable
+          label="Password" placeholder="Enter your password"></v-text-field>
 
         <br />
 
-        <v-btn
-          :disabled="!form"
-          :loading="loading"
-          block
-          color="success"
-          size="large"
-          type="submit"
-          variant="elevated"
-        >
+        <v-btn :disabled="!form" :loading="loading" block color="success" size="large" type="submit" variant="elevated">
           Sign In
         </v-btn>
       </v-form>
@@ -58,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import axiosClient from "@/utils/axios";
+import axiosClient from "@/utils/axios"
 
 export default {
   data: () => ({
@@ -70,43 +42,44 @@ export default {
   }),
 
   methods: {
-    async onSubmit() {
-      if (!this.form) return;
 
-      this.loading = true;
+    async onSubmit() {
+      if (!this.form) return
+
+      this.loading = true
 
       const dataUser = {
         username: this.username,
         password: this.password,
-      };
+      }
 
       axiosClient
         .post(`/auth/users/login`, dataUser)
         .then((result) => {
           if (result.data.message) {
-            this.err = result.data.message;
-            this.loading = false;
+            this.err = result.data.message
+            this.loading = false
           } else {
-            this.err = "";
-            localStorage.setItem("token", result.data.token);
+            this.err = ""
+            localStorage.setItem("token", result.data.token)
             setTimeout(() => {
-              this.loading = false;
-              this.$router.push("/");
-            }, 2000);
+              this.loading = false
+              this.$router.push("/")
+            }, 2000)
           }
         })
         .catch(() => {
-          alert("Some Thing Wrong.");
-          this.loading = false;
-        });
+          alert("Some Thing Wrong.")
+          this.loading = false
+        })
     },
     required(v: any) {
-      return !!v || "Field is required";
+      return !!v || "Field is required"
     },
   },
 
   mounted() {
-    if (localStorage.getItem("token") != null) this.$router.push("/");
+    if (localStorage.getItem("token") != null) this.$router.push("/")
   },
-};
+}
 </script>

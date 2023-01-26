@@ -1,10 +1,7 @@
 <template>
   <DefaultDrawer :drawer="drawer" />
   <v-app-bar color="primary" density="compact" flat>
-    <v-app-bar-nav-icon
-      variant="text"
-      @click.stop="drawer = !drawer"
-    ></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-app-bar-title>
       <v-icon icon="mdi-circle-slice-4" />
       Base Preset
@@ -13,8 +10,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import DefaultDrawer from "./Drawer.vue";
+import { defineComponent } from "vue"
+import DefaultDrawer from "./Drawer.vue"
 
 export default defineComponent({
   components: {
@@ -27,27 +24,27 @@ export default defineComponent({
 
   watch: {
     group() {
-      this.drawer = false;
+      this.drawer = false
     },
   },
 
   created() {
-    window.addEventListener("resize", this.myEventHandler);
-    this.checkWidth(screen.width);
+    window.addEventListener("resize", this.myEventHandler)
+    this.checkWidth(screen.width)
   },
 
   methods: {
     myEventHandler(e: any) {
-      const toS = e.currentTarget.innerWidth;
-      this.checkWidth(toS);
+      const toS = e.currentTarget.innerWidth
+      this.checkWidth(toS)
     },
     checkWidth(toS: any) {
       if (toS < 960) {
-        this.drawer = false;
+        this.drawer = false
       } else {
-        this.drawer = true;
+        this.drawer = true
       }
     },
   },
-});
+})
 </script>
