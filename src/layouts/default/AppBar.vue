@@ -1,6 +1,6 @@
 <template>
   <DefaultDrawer :drawer="drawer" />
-  <v-app-bar color="primary" density="compact" flat>
+  <v-app-bar color="primary" flat> <!-- density="compact" -->
     <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-app-bar-title>
       <v-icon icon="mdi-circle-slice-4" />
