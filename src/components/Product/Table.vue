@@ -41,8 +41,7 @@
                                                             <v-select density="compact"
                                                                 v-model="selectedz.category.name"
                                                                 :items="selectedz.category.item" item-value="id"
-                                                                :return-object="true" id="selectedz" :rules="[selected]"
-                                                                hide-details></v-select>
+                                                                :rules="[selected]" hide-details></v-select>
                                                         </template>
                                                     </v-radio>
                                                     <v-radio class="mb-3" value="amp">
@@ -50,8 +49,7 @@
                                                             <div class="mr-3">อำเภอ</div>
                                                             <v-select density="compact" v-model="selectedz.amp.name"
                                                                 :items="selectedz.amp.item" item-value="id"
-                                                                :return-object="true" id="selectedz" :rules="[selected]"
-                                                                hide-details></v-select>
+                                                                :rules="[selected]" hide-details></v-select>
                                                         </template>
                                                     </v-radio>
                                                     <v-radio class="mb-3" value="levels">
@@ -59,8 +57,7 @@
                                                             <div class="mr-3">ระดับ</div>
                                                             <v-select density="compact" v-model="selectedz.levels.name"
                                                                 :items="selectedz.levels.item" item-value="id"
-                                                                :return-object="true" id="selectedz" :rules="[selected]"
-                                                                hide-details></v-select>
+                                                                :rules="[selected]" hide-details></v-select>
                                                         </template>
                                                     </v-radio>
                                                 </v-radio-group>
@@ -137,6 +134,7 @@ export default {
         desserts: [],
         defaultDesserts: [],
         hiSelect: '',
+        hiSelectStar: '',
     }),
     async mounted() {
         this.getAllData()
@@ -145,25 +143,24 @@ export default {
     },
     methods: {
         selected(v: any) {
-            this.hiSelect = v
-            if (this.selectedz.category.item.includes(v)) {
-                this.radios = "category"
-                this.selectedz.amp.name = 'อำเภอ'
-                this.selectedz.levels.name = 'ระดับ'
-            } else if (this.selectedz.amp.item.includes(v)) {
-                this.radios = "amp"
-                this.selectedz.category.name = 'ประเภท'
-                this.selectedz.levels.name = 'ระดับ'
-            } else if (this.selectedz.levels.item.includes(v)) {
+
+            // console.log(this.radios)
+
+            if (["ปกติ", "★", "★★", "★★★", "★★★★", "★★★★★"].includes(v)) {
                 this.radios = "levels"
-                this.selectedz.category.name = 'ประเภท'
-                this.selectedz.amp.name = 'อำเภอ'
-                if (v == 'ปกติ') this.hiSelect = '0'
-                else if (v == '★') this.hiSelect = '1'
-                else if (v == '★★') this.hiSelect = '2'
-                else if (v == '★★★') this.hiSelect = '3'
-                else if (v == '★★★★') this.hiSelect = '4'
-                else if (v == '★★★★★') this.hiSelect = '5'
+                if (v == 'ปกติ') this.hiSelectStar = '0'
+                else if (v == '★') this.hiSelectStar = '1'
+                else if (v == '★★') this.hiSelectStar = '2'
+                else if (v == '★★★') this.hiSelectStar = '3'
+                else if (v == '★★★★') this.hiSelectStar = '4'
+                else if (v == '★★★★★') this.hiSelectStar = '5'
+                console.log(v)
+            } else if (this.selectedz.amp.item.includes(v)) {
+                this.radios = 'amp'
+                this.hiSelect = v
+            } else if (this.selectedz.category.item.includes(v)) {
+                this.radios = 'category'
+                this.hiSelect = v
             }
             return true
         },
@@ -212,10 +209,12 @@ export default {
             } else if (this.radios == 'category' || this.radios == 'amp') {
                 if (this.selectedz.category.name == 'ประเภท' && this.radios == 'category') return alert('โปรดเลือกประเภท')
                 else if (this.selectedz.amp.name == 'อำเภอ' && this.radios == 'amp') return alert('โปรดเลือกอำเภอ')
-                else this.search = this.hiSelect
+                else {
+                    this.search = this.hiSelect
+                }
             } else if (this.radios == 'levels') {
                 if (this.selectedz.levels.name == 'ระดับ' && this.radios == 'levels') return alert('โปรดเลือกระดับ')
-                this.desserts = this.desserts.filter((el: any) => el.otop == this.hiSelect)
+                this.desserts = this.desserts.filter((el: any) => el.otop == this.hiSelectStar)
             }
             this.close()
         },
