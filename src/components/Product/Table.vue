@@ -12,7 +12,7 @@
                 <template v-slot:top>
                     <v-toolbar flat>
                         <v-card-text>
-                            <v-text-field v-model="search" density="compact" variant="solo" label="ค้นหา"
+                            <v-text-field density="compact" v-model="search" variant="solo" label="ค้นหา"
                                 append-inner-icon="mdi-magnify" single-line hide-details></v-text-field>
                         </v-card-text>
                         <!-- <v-spacer></v-spacer> -->
@@ -22,18 +22,49 @@
                             </template>
                             <v-card>
                                 <v-card-title>
-                                    <span class="text-h5">Title</span>
+                                    <span class="text-h5">เลือกประเภทข้อมูลที่ต้องการ</span>
                                 </v-card-title>
 
                                 <v-card-text>
                                     <v-container>
                                         <v-row>
-                                            <!-- <v-col sm="12" md="12">
-                                                <v-select v-model="selected_AMP" density="compact" :items="amp"
-                                                    variant="solo" item-title="nameAMP" item-value="id"
-                                                    :return-object="true" :rules="[selectAMP]" hide-details
-                                                    prepend-inner-icon="mdi-map-marker"></v-select>
-                                            </v-col> -->
+                                            <v-col sm="12" md="12">
+                                                <v-radio-group v-model="radios">
+                                                    <v-radio class="mb-3" value="default">
+                                                        <template v-slot:label>
+                                                            <div class="mr-3">ข้อมูลทั้งหมด</div>
+                                                        </template>
+                                                    </v-radio>
+                                                    <v-radio class="mb-3" value="category">
+                                                        <template v-slot:label>
+                                                            <div class="mr-3">ประเภท</div>
+                                                            <v-select density="compact"
+                                                                v-model="selectedz.category.name"
+                                                                :items="selectedz.category.item" item-value="id"
+                                                                :return-object="true" id="selectedz" :rules="[selected]"
+                                                                hide-details></v-select>
+                                                        </template>
+                                                    </v-radio>
+                                                    <v-radio class="mb-3" value="amp">
+                                                        <template v-slot:label>
+                                                            <div class="mr-3">อำเภอ</div>
+                                                            <v-select density="compact" v-model="selectedz.amp.name"
+                                                                :items="selectedz.amp.item" item-value="id"
+                                                                :return-object="true" id="selectedz" :rules="[selected]"
+                                                                hide-details></v-select>
+                                                        </template>
+                                                    </v-radio>
+                                                    <v-radio class="mb-3" value="levels">
+                                                        <template v-slot:label>
+                                                            <div class="mr-3">ระดับ</div>
+                                                            <v-select density="compact" v-model="selectedz.levels.name"
+                                                                :items="selectedz.levels.item" item-value="id"
+                                                                :return-object="true" id="selectedz" :rules="[selected]"
+                                                                hide-details></v-select>
+                                                        </template>
+                                                    </v-radio>
+                                                </v-radio-group>
+                                            </v-col>
                                         </v-row>
                                     </v-container>
                                 </v-card-text>
@@ -41,10 +72,10 @@
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn color="blue-darken-1" variant="text" @click="close">
-                                        Cancel
+                                        ปิด
                                     </v-btn>
                                     <v-btn color="blue-darken-1" variant="text" @click="save">
-                                        Save
+                                        บันทึก
                                     </v-btn>
                                 </v-card-actions>
                             </v-card>
@@ -57,13 +88,14 @@
                     </v-btn>
                 </template>
                 <template v-slot:no-data>
-                    <v-btn color="primary">
-                        Reset
+                    <v-btn color="primary" @click="getAllData">
+                        รีเซ็ตข้อมูล
                     </v-btn>
                 </template>
             </v-data-table>
         </v-card>
     </v-container>
+    <!-- {{ test('hi') }} -->
 </template>
 
 <script lang="ts">
@@ -71,7 +103,22 @@ import axiosClient from '@/utils/axios'
 
 export default {
     data: () => ({
-        amp: ["love", "loe2", "love", "loe2", "love", "loe2", "love", "loe2", "love", "loe2", "love", "loe2", "love", "loe2", "love", "loe2", "love", "loe2", "love", "loe2"],
+        rating: 3,
+        selectedz: {
+            category: {
+                name: 'ประเภท',
+                item: ['']
+            },
+            amp: {
+                name: 'อำเภอ',
+                item: ['']
+            },
+            levels: {
+                name: 'ระดับ',
+                item: ['ปกติ', '★', '★★', '★★★', '★★★★', '★★★★★']
+            },
+        },
+        radios: 'default',
         search: '',
         dialog: false,
         headers: [
@@ -85,21 +132,45 @@ export default {
             { title: 'ประเภท', key: 'category' },
             { title: 'อำเภอ', key: 'amp' },
             { title: 'ระดับ', key: 'otop' },
-            { title: '', key: 'details' },
+            { title: '', key: 'details', sortable: false },
         ],
-        desserts: [
-            {
-                name: 'Frozen Yogurt',
-                category: 159,
-                amp: 6.0,
-                otop: 24,
-            },
-        ],
+        desserts: [],
+        defaultDesserts: [],
+        hiSelect: '',
     }),
     async mounted() {
-        const { data } = await axiosClient.get('/products/admin')
-        this.desserts = data.map((item: any, id: any) => {
-            if (item.otop < 1) {
+        this.getAllData()
+        this.selectedz.category.item.pop()
+        this.selectedz.amp.item.pop()
+    },
+    methods: {
+        selected(v: any) {
+            this.hiSelect = v
+            if (this.selectedz.category.item.includes(v)) {
+                this.radios = "category"
+                this.selectedz.amp.name = 'อำเภอ'
+                this.selectedz.levels.name = 'ระดับ'
+            } else if (this.selectedz.amp.item.includes(v)) {
+                this.radios = "amp"
+                this.selectedz.category.name = 'ประเภท'
+                this.selectedz.levels.name = 'ระดับ'
+            } else if (this.selectedz.levels.item.includes(v)) {
+                this.radios = "levels"
+                this.selectedz.category.name = 'ประเภท'
+                this.selectedz.amp.name = 'อำเภอ'
+                if (v == 'ปกติ') this.hiSelect = '0'
+                else if (v == '★') this.hiSelect = '1'
+                else if (v == '★★') this.hiSelect = '2'
+                else if (v == '★★★') this.hiSelect = '3'
+                else if (v == '★★★★') this.hiSelect = '4'
+                else if (v == '★★★★★') this.hiSelect = '5'
+            }
+            return true
+        },
+        async getAllData() {
+            this.search = ''
+            const { data } = await axiosClient.get('/products/admin')
+            this.desserts = data.map((item: any, id: any) => {
                 return {
                     id: id + 1,
                     name: item.name,
@@ -107,26 +178,45 @@ export default {
                     amp: item.amp,
                     otop: + item.otop,
                 }
-            }
-            else {
-                return {
-                    id: id + 1,
-                    name: item.name,
-                    category: item.category,
-                    amp: item.amp,
-                    otop: item.otop,
-                    details: 'OTOP: ' + item.otop,
+            })
+            this.defaultDesserts = this.desserts
+            const data2 = await axiosClient.get('/category')
+            data2.data.map((item: any) => {
+                this.selectedz.category.item.push(item.name)
+            })
+            const data3 = await axiosClient.get(
+                "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_amphure.json"
+            )
+            data3.data.filter(
+                (item: { province_id: string; name_th: string; id: string }) => {
+                    if (
+                        item.province_id == "70" &&
+                        item.name_th != "ท้องถิ่นเทศบาลตำบลสำนักขาม"
+                    ) {
+                        this.selectedz.amp.item.push(item.name_th)
+                    }
                 }
-            }
-        })
-        console.log(this.desserts)
-
-    },
-    methods: {
+            )
+        },
         close() {
             this.dialog = false
         },
+        test(str: any) {
+            console.log(str)
+        },
         save() {
+            this.search = ''
+            this.desserts = this.defaultDesserts
+            if (this.radios == 'default') {
+                this.desserts = this.defaultDesserts
+            } else if (this.radios == 'category' || this.radios == 'amp') {
+                if (this.selectedz.category.name == 'ประเภท' && this.radios == 'category') return alert('โปรดเลือกประเภท')
+                else if (this.selectedz.amp.name == 'อำเภอ' && this.radios == 'amp') return alert('โปรดเลือกอำเภอ')
+                else this.search = this.hiSelect
+            } else if (this.radios == 'levels') {
+                if (this.selectedz.levels.name == 'ระดับ' && this.radios == 'levels') return alert('โปรดเลือกระดับ')
+                this.desserts = this.desserts.filter((el: any) => el.otop == this.hiSelect)
+            }
             this.close()
         },
         getColor(calories: number) {
