@@ -4,7 +4,7 @@
     <v-list color="transparent">
       <div class="text-center">
         <v-avatar rounded="1" size="100" color="blue-darken-2">
-          <v-avatar color="grey" size="150" rounded="0">
+          <v-avatar @click="imageTo" color="grey" size="150" rounded="0">
             <v-img cover src="https://static.zerochan.net/Yanfei.full.3333732.jpg"></v-img>
           </v-avatar>
         </v-avatar>
@@ -62,6 +62,9 @@ export default defineComponent({
     this.toggle(this.$route.fullPath)
   },
   methods: {
+    imageTo() {
+      window.open('https://github.com/GreenTeaSleep/FE-Songkhla-Community-E-Commerce-Vuetify', '_blank')
+    },
     toggle(v: any) {
       let arr = Array.from(document.querySelectorAll(".v-list-item"))
       arr.shift()

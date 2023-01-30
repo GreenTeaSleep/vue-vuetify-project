@@ -144,17 +144,10 @@ export default {
     methods: {
         selected(v: any) {
 
-            // console.log(this.radios)
-
-            if (["ปกติ", "★", "★★", "★★★", "★★★★", "★★★★★"].includes(v)) {
+            if (this.selectedz.levels.item.includes(v)) {
                 this.radios = "levels"
                 if (v == 'ปกติ') this.hiSelectStar = '0'
-                else if (v == '★') this.hiSelectStar = '1'
-                else if (v == '★★') this.hiSelectStar = '2'
-                else if (v == '★★★') this.hiSelectStar = '3'
-                else if (v == '★★★★') this.hiSelectStar = '4'
-                else if (v == '★★★★★') this.hiSelectStar = '5'
-                console.log(v)
+                else this.hiSelectStar = String(v.length)
             } else if (this.selectedz.amp.item.includes(v)) {
                 this.radios = 'amp'
                 this.hiSelect = v
