@@ -7,7 +7,8 @@
       <v-col cols="12" sm="12" md="6">
         <v-card width="90%" class="mx-auto" title="ข้อมูลผู้ใช้">
           <v-container>
-            <v-text-field v-model="username" color="primary" label="ชื่อผู้ใช้" variant="underlined"></v-text-field>
+            <v-text-field required v-model="username" color="primary" label="ชื่อผู้ใช้"
+              variant="underlined"></v-text-field>
 
             <v-text-field v-model="password" color="primary" label="รหัสผ่าน" variant="underlined" type="password"
               @input="clearError"></v-text-field>
@@ -48,7 +49,7 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 import axiosClient from "@/utils/axios"
-import tambons from "@/assets/api_tambon.json"
+import { getTambons, getAmphure } from '@/assets/functions/fetchAreaSongkhla.js'
 
 export default defineComponent({
   props: ["val2"],
@@ -61,8 +62,8 @@ export default defineComponent({
     address: "",
     selected_AMP: { id: "", nameAMP: "อำเภอ" },
     selected_TAM: { id: "", nameTAM: "ตำบล" },
-    amp: [{ id: "", nameAMP: "" }],
-    tam: [{ id: "", nameTAM: "" }],
+    amp: [{ id: 0, nameAMP: "" }],
+    tam: [{ id: 0, nameTAM: "" }],
     ampSelected: "",
     tamSelected: "",
     mobile: "",
@@ -72,17 +73,9 @@ export default defineComponent({
   }),
   methods: {
     async fetchAMP(v: any) {
+      this.selected_TAM = { id: "", nameTAM: "ตำบล" }
       this.ampSelected = v.nameAMP
-
-      this.tam = tambons
-        .filter((tambon: { amphure_id: any }) => tambon.amphure_id === v.id)
-        .map((tambon: { id: { toString: () => any }; name_th: any }) => {
-          return {
-            id: tambon.id.toString(),
-            nameTAM: tambon.name_th,
-          }
-        })
-
+      this.tam = getTambons(v.id)
       return true
     },
     async fetchTAM(v: any) {
@@ -91,13 +84,11 @@ export default defineComponent({
         amp: this.ampSelected,
         tam: this.tamSelected,
       })
-
       return true
     },
     async signUp() {
-      if (this.password != this.cfPassword) {
-        return (this.err = "รหัสผ่านไม่ตรงกัน")
-      }
+      if (this.password != this.cfPassword) return (this.err = "รหัสผ่านไม่ตรงกัน")
+      else if (this.tamSelected == 'ตำบล') return (this.err = "โปรดเลือกตำบล")
 
       const dataCommu = {
         username: this.username,
@@ -121,23 +112,12 @@ export default defineComponent({
     },
   },
   async mounted() {
-    const result = await axiosClient.get(
-      "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_amphure.json"
-    )
-    let data = result.data
-    data.filter(
-      (item: { province_id: string; name_th: string; id: string }) => {
-        if (
-          item.province_id == "70" &&
-          item.name_th != "ท้องถิ่นเทศบาลตำบลสำนักขาม"
-        ) {
-          this.amp.push({
-            id: item.id,
-            nameAMP: item.name_th,
-          })
-        }
-      }
-    )
+    getAmphure().filter(item => {
+      this.amp.push({
+        id: item.id,
+        nameAMP: item.name_th
+      })
+    })
     this.amp.shift()
     this.tam.shift()
   },

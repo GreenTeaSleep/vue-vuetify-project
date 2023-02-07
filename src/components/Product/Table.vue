@@ -40,24 +40,24 @@
                                                             <div class="mr-3">ประเภท</div>
                                                             <v-select density="compact"
                                                                 v-model="selectedz.category.name"
-                                                                :items="selectedz.category.item" item-value="id"
-                                                                :rules="[selected]" hide-details></v-select>
+                                                                :items="selectedz.category.item" :rules="[selected]"
+                                                                hide-details></v-select>
                                                         </template>
                                                     </v-radio>
                                                     <v-radio class="mb-3" value="amp">
                                                         <template v-slot:label>
                                                             <div class="mr-3">อำเภอ</div>
                                                             <v-select density="compact" v-model="selectedz.amp.name"
-                                                                :items="selectedz.amp.item" item-value="id"
-                                                                :rules="[selected]" hide-details></v-select>
+                                                                :items="selectedz.amp.item" :rules="[selected]"
+                                                                hide-details></v-select>
                                                         </template>
                                                     </v-radio>
                                                     <v-radio class="mb-3" value="levels">
                                                         <template v-slot:label>
                                                             <div class="mr-3">ระดับ</div>
                                                             <v-select density="compact" v-model="selectedz.levels.name"
-                                                                :items="selectedz.levels.item" item-value="id"
-                                                                :rules="[selected]" hide-details></v-select>
+                                                                :items="selectedz.levels.item" :rules="[selected]"
+                                                                hide-details></v-select>
                                                         </template>
                                                     </v-radio>
                                                 </v-radio-group>
@@ -92,11 +92,11 @@
             </v-data-table>
         </v-card>
     </v-container>
-    <!-- {{ test('hi') }} -->
 </template>
 
 <script lang="ts">
 import axiosClient from '@/utils/axios'
+import { getAmphure } from '@/assets/functions/fetchAreaSongkhla.js'
 
 export default {
     data: () => ({
@@ -143,7 +143,6 @@ export default {
     },
     methods: {
         selected(v: any) {
-
             if (this.selectedz.levels.item.includes(v)) {
                 this.radios = "levels"
                 if (v == 'ปกติ') this.hiSelectStar = '0'
@@ -158,6 +157,8 @@ export default {
             return true
         },
         async getAllData() {
+            this.desserts = []
+            this.selectedz.category.item = []
             this.search = ''
             const { data } = await axiosClient.get('/products/admin')
             this.desserts = data.map((item: any, id: any) => {
@@ -174,27 +175,16 @@ export default {
             data2.data.map((item: any) => {
                 this.selectedz.category.item.push(item.name)
             })
-            const data3 = await axiosClient.get(
-                "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_amphure.json"
-            )
-            data3.data.filter(
-                (item: { province_id: string; name_th: string; id: string }) => {
-                    if (
-                        item.province_id == "70" &&
-                        item.name_th != "ท้องถิ่นเทศบาลตำบลสำนักขาม"
-                    ) {
-                        this.selectedz.amp.item.push(item.name_th)
-                    }
-                }
-            )
+
+            getAmphure().filter(item => {
+                this.selectedz.amp.item.push(item.name_th)
+            })
         },
         close() {
             this.dialog = false
         },
-        test(str: any) {
-            console.log(str)
-        },
         save() {
+            console.log(this.selectedz.amp.item)
             this.search = ''
             this.desserts = this.defaultDesserts
             if (this.radios == 'default') {

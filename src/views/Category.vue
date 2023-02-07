@@ -2,8 +2,8 @@
   <v-container class="fill-height">
     <v-card>
       <v-tabs v-model="tab" bg-color="primary">
-        <v-tab value="one">ประเภทผลิตภัณฑ์</v-tab>
-        <v-tab value="two">เพิ่มประเภทผลิตภัณฑ์</v-tab>
+        <v-tab prepend-icon="mdi-file-document-outline" value="one">ประเภทผลิตภัณฑ์</v-tab>
+        <v-tab prepend-icon="mdi-file-document-plus-outline" value="two">เพิ่มประเภทผลิตภัณฑ์</v-tab>
       </v-tabs>
 
       <v-card-text>
@@ -45,9 +45,9 @@
                               </v-card-text>
                               <v-card-actions class="justify-end">
                                 <v-btn variant="text" @click="
-                                  {
+  {
                                     (isActive.value = false),
-                                  saveEditData(category_id);
+  saveEditData(category_id);
                                   }
                                 ">Save</v-btn>
                                 <v-btn variant="text" @click="isActive.value = false">Close</v-btn>
