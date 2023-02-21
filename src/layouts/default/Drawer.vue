@@ -8,7 +8,7 @@
             <v-img cover src="https://static.zerochan.net/Yanfei.full.3333732.jpg"></v-img>
           </v-avatar>
         </v-avatar>
-        <v-list-item class="text-white" title="Yanfei" subtitle="Pyro"></v-list-item>
+        <v-list-item class="text-white" :title="dataUser" subtitle="Admin"></v-list-item>
       </div>
 
       <v-divider></v-divider>
@@ -31,6 +31,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
+import { useAuthStore } from '@/store'
 
 export default defineComponent({
   props: ["drawer"],
@@ -57,9 +58,11 @@ export default defineComponent({
         path: "/community",
       },
     ],
+    dataUser: '',
   }),
   mounted() {
     this.toggle(this.$route.fullPath)
+    this.dataUser = JSON.parse(localStorage.getItem('user')!).data.full_name
   },
   methods: {
     imageTo() {
@@ -77,6 +80,7 @@ export default defineComponent({
     },
     logout() {
       if (confirm("คุณต้องการออกจากระบบ ?") == true) {
+        useAuthStore().logout()
         this.loading = true
 
         setTimeout(() => {

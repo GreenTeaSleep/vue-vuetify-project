@@ -13,16 +13,16 @@
       <v-alert class="mb-5" v-if="err" type="error">{{ err }}</v-alert>
 
       <v-form v-model="form" @submit.prevent="onSubmit">
-        <v-text-field v-model="username" :readonly="loading" :rules="[required]" class="mb-2" clearable
-          label="Username"></v-text-field>
+        <v-text-field @input="clearInput" v-model="username" :readonly="loading" :rules="[required]" class="mb-2"
+          clearable label="ชื่อผู้ใช้"></v-text-field>
 
         <v-text-field v-model="password" :readonly="loading" :rules="[required]" type="password" clearable
-          label="Password" placeholder="Enter your password"></v-text-field>
+          label="รหัสผ่าน" placeholder="Enter your password"></v-text-field>
 
         <br />
 
         <v-btn :disabled="!form" :loading="loading" block color="success" size="large" type="submit" variant="elevated">
-          Sign In
+          ลงชื่อเข้าใช้
         </v-btn>
       </v-form>
     </v-card>
@@ -30,13 +30,13 @@
 </template>
 
 <script lang="ts">
-import axiosClient from "@/utils/axios"
+import { useAuthStore } from '@/store'
 
 export default {
   data: () => ({
     form: false,
-    username: null,
-    password: null,
+    username: '',
+    password: '',
     loading: false,
     err: "",
   }),
@@ -48,38 +48,29 @@ export default {
 
       this.loading = true
 
-      const dataUser = {
-        username: this.username,
-        password: this.password,
-      }
+      const authStore = useAuthStore()
+      const result = await authStore.login(this.username, this.password)
 
-      axiosClient
-        .post(`/auth/users/login`, dataUser)
-        .then((result) => {
-          if (result.data.message) {
-            this.err = result.data.message
-            this.loading = false
-          } else {
-            this.err = ""
-            localStorage.setItem("token", result.data.token)
-            setTimeout(() => {
-              this.loading = false
-              this.$router.push("/")
-            }, 2000)
-          }
-        })
-        .catch(() => {
-          alert("Some Thing Wrong.")
-          this.loading = false
-        })
+
+      setTimeout(() => {
+        if (result == "Password or username is incorrect.") this.err = result
+        this.loading = false
+      }, 2000)
+
     },
     required(v: any) {
       return !!v || "Field is required"
     },
+    clearInput() {
+      this.err = ''
+    },
+    checkUser() {
+      if (localStorage.getItem('user')) return this.$router.push('/')
+    }
   },
 
   mounted() {
-    if (localStorage.getItem("token") != null) this.$router.push("/")
+    this.checkUser()
   },
 }
 </script>

@@ -38,8 +38,7 @@
                                                     <v-radio class="mb-3" value="category">
                                                         <template v-slot:label>
                                                             <div class="mr-3">ประเภท</div>
-                                                            <v-select density="compact"
-                                                                v-model="selectedz.category.name"
+                                                            <v-select density="compact" v-model="selectedz.category.name"
                                                                 :items="selectedz.category.item" :rules="[selected]"
                                                                 hide-details></v-select>
                                                         </template>
@@ -78,12 +77,12 @@
                             </v-card>
                         </v-dialog>
                     </v-toolbar>
-                </template>
-                <template v-slot:item.details="{}">
+            </template>
+            <!-- <template v-slot:item.details="{}">
                     <v-btn color="success">
                         รายละเอียด
-                    </v-btn>
-                </template>
+                        </v-btn>
+                    </template> -->
                 <template v-slot:no-data>
                     <v-btn color="primary" @click="getAllData">
                         รีเซ็ตข้อมูล
@@ -129,7 +128,7 @@ export default {
             { title: 'ประเภท', key: 'category' },
             { title: 'อำเภอ', key: 'amp' },
             { title: 'ระดับ', key: 'otop' },
-            { title: '', key: 'details', sortable: false },
+            // { title: '', key: 'details', sortable: false },
         ],
         desserts: [],
         defaultDesserts: [],
