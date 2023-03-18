@@ -36,20 +36,20 @@
                                 <div class="text-h2">
                                   <v-container class="d-flex align-center flex-column">
                                     <v-col cols="12">
-                                      <v-text-field label="Legal middle name"
-                                        hint="example of helper text only on focus" v-model="eName" :counter="50"
-                                        :rules="nameRules"></v-text-field>
+                                      <v-text-field label="Legal middle name" hint="example of helper text only on focus"
+                                        v-model="eName" :counter="50" :rules="nameRules"></v-text-field>
                                     </v-col>
                                   </v-container>
                                 </div>
                               </v-card-text>
                               <v-card-actions class="justify-end">
-                                <v-btn variant="text" @click="
-  {
-                                    (isActive.value = false),
-  saveEditData(category_id);
-                                  }
-                                ">Save</v-btn>
+                                <v-btn variant="text"
+                                  @click="
+                                    {
+                                                                                                                                                                                                                                                      (isActive.value = false),
+                                    saveEditData(category_id);
+                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                  ">Save</v-btn>
                                 <v-btn variant="text" @click="isActive.value = false">Close</v-btn>
                               </v-card-actions>
                             </v-card>
@@ -74,8 +74,8 @@
                   <v-text-field v-model="name" :rules="nameRules" :readonly="loading" :counter="50"
                     label="ประเภทผลิตภัณฑ์" clearable required></v-text-field>
                   <v-row class="d-flex align-center flex-column ma-1 pa-1">
-                    <v-col cols="12" md="4"><v-btn :disabled="!form" :loading="loading" block color="success"
-                        size="large" type="submit" variant="elevated" rounded="pill">
+                    <v-col cols="12" md="4"><v-btn :disabled="!form" :loading="loading" block color="success" size="large"
+                        type="submit" variant="elevated" rounded="pill">
                         เพิ่มข้อมูล
                       </v-btn></v-col>
                   </v-row>

@@ -17,7 +17,7 @@
           clearable label="ชื่อผู้ใช้"></v-text-field>
 
         <v-text-field v-model="password" :readonly="loading" :rules="[required]" type="password" clearable
-          label="รหัสผ่าน" placeholder="Enter your password"></v-text-field>
+          label="รหัสผ่าน" placeholder="ป้อนรหัสผ่านของคุณ"></v-text-field>
 
         <br />
 
@@ -49,17 +49,19 @@ export default {
       this.loading = true
 
       const authStore = useAuthStore()
-      const result = await authStore.login(this.username, this.password)
-
-
-      setTimeout(() => {
-        if (result == "Password or username is incorrect.") this.err = result
-        this.loading = false
-      }, 2000)
+      try {
+        const result = await authStore.login(this.username, this.password)
+        setTimeout(() => {
+          if (result) this.err = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"
+          this.loading = false
+        }, 2000)
+      } catch (err) {
+        if (err) throw err
+      }
 
     },
     required(v: any) {
-      return !!v || "Field is required"
+      return !!v || "ต้องระบุฟิลด์"
     },
     clearInput() {
       this.err = ''

@@ -24,8 +24,8 @@ tr:hover {
       <template v-slot:top>
         <v-toolbar flat>
           <v-card-text>
-            <v-text-field v-model="search" density="compact" variant="solo" label="ค้นหา"
-              append-inner-icon="mdi-magnify" single-line hide-details></v-text-field>
+            <v-text-field v-model="search" density="compact" variant="solo" label="ค้นหา" append-inner-icon="mdi-magnify"
+              single-line hide-details></v-text-field>
           </v-card-text>
           <v-card-text>
             <v-select v-model="selected_AMP" density="compact" :items="amp" variant="solo" item-title="nameAMP"
@@ -121,12 +121,13 @@ export default {
         { key: "name", title: "ชื่อกลุ่มวิสาหกิจชุมชน" },
         { key: "amp", title: "อำเภอ" },
         { key: "tam", title: "ตำบล" },
-        { key: "actions", title: "#" },
+        { key: "actions", title: "สถานะ / แก้ไข" },
       ],
       desserts: [
         {
           id: 0,
           name: "",
+          person: '',
           amp: "",
           tam: "",
           commu_id: 0,
@@ -175,6 +176,7 @@ export default {
           {
             id: 0,
             name: "",
+            person: "",
             amp: "",
             tam: "",
             commu_id: 0,
@@ -190,6 +192,7 @@ export default {
           this.desserts.push({
             id: index + 1,
             name: item.name,
+            person: item.person,
             amp: item.amp,
             tam: item.tam,
             commu_id: item.commu_id,

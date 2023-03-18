@@ -8,13 +8,14 @@ export const useAuthStore = defineStore({
         user: JSON.parse(localStorage.getItem('user')!),
         returnUrl: ''
     }),
-
+    
     actions: {
         async login(username: string, password: string) {
             const user = await axiosClient.post('/auth/auth-admin', {
                 username,
                 password
             })
+            
             if (user.data.msg) return user.data.msg
 
             this.user = user
