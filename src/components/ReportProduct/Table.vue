@@ -3,6 +3,7 @@
 <template>
     <v-container>
         <v-card>
+            <h1 style="margin: 20px 20px 20px 20px">รายงานผลิตภัณฑ์</h1>
             <v-data-table :search="search" :headers="headers" :items="desserts" item-value="name" class="elevation-1">
                 <template v-slot:item.otop="{ item }">
                     <v-chip :color="getColor(item.raw.otop)">
@@ -81,8 +82,8 @@
             <!-- <template v-slot:item.details="{}">
                     <v-btn color="success">
                         รายละเอียด
-                        </v-btn>
-                    </template> -->
+                                                </v-btn>
+                                            </template> -->
                 <template v-slot:no-data>
                     <v-btn color="primary" @click="getAllData">
                         รีเซ็ตข้อมูล

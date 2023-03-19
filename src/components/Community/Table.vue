@@ -4,13 +4,13 @@
       <tr>
         <th class="text-left">ลำดับ</th>
         <th class="text-left">ชื่อกลุ่มวิสาหกิจชุมชน</th>
-        <th class="text-left">#</th>
+        <th class="text-left">สถานะ / แก้ไข</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(
-            { name, commu_id, confirm_status, address, mobile, regis_code }, index
-          ) in community" :key="commu_id">
+                    { name, commu_id, confirm_status, address, mobile, regis_code }, index
+                  ) in community" :key="commu_id">
         <td>{{ index + 1 }}</td>
         <td>{{ name }}</td>
         <td>

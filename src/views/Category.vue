@@ -14,7 +14,7 @@
                 <tr>
                   <th class="text-left">ลำดับ</th>
                   <th class="text-left">ชื่อประเภท</th>
-                  <th class="text-left"></th>
+                  <th class="text-left">แก้ไข / ลบ</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,10 +46,10 @@
                                 <v-btn variant="text"
                                   @click="
                                     {
-                                                                                                                                                                                                                                                      (isActive.value = false),
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  (isActive.value = false),
                                     saveEditData(category_id);
-                                                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                                                  ">Save</v-btn>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ">Save</v-btn>
                                 <v-btn variant="text" @click="isActive.value = false">Close</v-btn>
                               </v-card-actions>
                             </v-card>
@@ -102,8 +102,23 @@ export default defineComponent({
 
     async deleteData(id: any) {
       if (confirm("You want to delete the data right?") === true) {
-        await axiosClient.delete(`/category/${id.toString()}`)
-        await this.getDessrts()
+        let res = await axiosClient.get(`/products`)
+        let resCategory = await axiosClient.get(`/category/${id.toString()}`)
+        let cData = 0
+        res.data.map((e: any) => {
+          if (resCategory.data.category_id == e.category_id) {
+            cData = 1
+          }
+        })
+        if (cData == 0) {
+          alert('ลบประเภทข้อมูลเรียบร้อยแล้ว');
+          (async () => {
+            await axiosClient.delete(`/category/${id.toString()}`)
+            await this.getDessrts()
+          })()
+        } else {
+          alert('ไม่สามารถลบได้: มีข้อมูลสินค้าที่ใช้ประเภทนี้อยู่.')
+        }
       }
     },
     editData(name: any) {

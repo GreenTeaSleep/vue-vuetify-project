@@ -12,7 +12,6 @@
             <CVtable v-else-if="item.tab != 'four' && item.tab != 'one' && item.tab != 'five'" :community="item.data"
               :tab="tab" />
             <AddCommunity v-else-if="item.tab == 'four'" />
-            <Report v-else-if="item.tab == 'five'" />
           </v-window-item>
         </v-window>
       </v-card-text>
@@ -27,14 +26,12 @@ import axiosClient from "@/utils/axios"
 import CVtable from "@/components/Community/Table.vue"
 import AddCommunity from "@/components/Community/AddCommunity.vue"
 import DataTableCommu from "@/components/Community/DataTable.vue"
-import Report from "@/components/Community/Report.vue"
 
 export default defineComponent({
   components: {
     CVtable,
     AddCommunity,
     DataTableCommu,
-    Report
   },
   data: () => ({
     tab: null,
@@ -61,12 +58,6 @@ export default defineComponent({
         tab: "four",
         title: "เพิ่มวิสาหกิจชุมชน",
         icon: "mdi-account-plus",
-        data: [],
-      },
-      {
-        tab: "five",
-        title: "รายงานกลุ่มวิสาหกิจชุมชน",
-        icon: "mdi-alert",
         data: [],
       },
     ],

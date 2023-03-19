@@ -4,8 +4,8 @@
     <v-list color="transparent">
       <div class="text-center">
         <v-avatar rounded="1" size="100" color="blue-darken-2">
-          <v-avatar @click="imageTo" color="grey" size="150" rounded="0">
-            <v-img cover src="https://static.zerochan.net/Yanfei.full.3333732.jpg"></v-img>
+          <v-avatar @click="imageTo" color="grey" size="100" rounded="0">
+            <v-img cover src="../../../public/f3281355.ico"></v-img>
           </v-avatar>
         </v-avatar>
         <v-list-item class="text-white" :title="dataUser" subtitle="Admin"></v-list-item>
@@ -13,10 +13,12 @@
 
       <v-divider></v-divider>
 
-      <v-list nav> <!-- density="compact" -->
+      <v-list v-model:opened="open" nav> <!-- density="compact" -->
         <v-list-item @click="toggle(item.path)" v-for="item in items" :key="item.icon" :prepend-icon="item.icon"
           :title="item.title" :value="item.value" :to="item.path"></v-list-item>
+        <ListGroup :open2="open" :toggle2="toggle" />
       </v-list>
+
     </v-list>
 
     <template v-slot:append>
@@ -33,18 +35,18 @@
 import { defineComponent } from "vue"
 import { useAuthStore } from '@/store'
 
+import ListGroup from "@/components/Layouts/ListGroup.vue"
+
 export default defineComponent({
+  components: {
+    ListGroup
+  },
   props: ["drawer"],
   data: () => ({
+    open: ['Users'],
     loading: false,
     items: [
       { icon: "mdi-view-dashboard", title: "Home", value: "home", path: "/" },
-      {
-        icon: "mdi-basket-outline",
-        title: "ผลิตภัณฑ์",
-        value: "product",
-        path: "/product",
-      },
       {
         icon: "mdi-file-document-outline",
         title: "ประเภทผลิตภัณฑ์",
@@ -93,3 +95,9 @@ export default defineComponent({
   },
 })
 </script>
+
+<style>
+.v-list-item-title {
+  font-size: 0.8125rem;
+}
+</style>
