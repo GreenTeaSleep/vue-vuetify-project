@@ -36,21 +36,18 @@
                                 <div class="text-h2">
                                   <v-container class="d-flex align-center flex-column">
                                     <v-col cols="12">
-                                      <v-text-field label="Legal middle name" hint="example of helper text only on focus"
-                                        v-model="eName" :counter="50" :rules="nameRules"></v-text-field>
+                                      <v-text-field label="ประเภทผลิตภัณฑ์" hint="อักษรไม่เกิน 50 ตัว" v-model="eName"
+                                        :counter="50" :rules="nameRules"></v-text-field>
                                     </v-col>
                                   </v-container>
                                 </div>
                               </v-card-text>
                               <v-card-actions class="justify-end">
-                                <v-btn variant="text"
-                                  @click="
-                                    {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  (isActive.value = false),
-                                    saveEditData(category_id);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ">Save</v-btn>
-                                <v-btn variant="text" @click="isActive.value = false">Close</v-btn>
+                                <v-btn variant="text" :disabled="up(eName)"
+                                  @click="(isActive.value = false), saveEditData(category_id)">
+                                  บันทึก
+                                </v-btn>
+                                <v-btn variant="text" @click="isActive.value = false">ปิด</v-btn>
                               </v-card-actions>
                             </v-card>
                           </v-col>
@@ -95,6 +92,10 @@ import axiosClient from "@/utils/axios"
 
 export default defineComponent({
   methods: {
+    up(string: any) {
+      return string < 1
+    },
+
     async getDessrts() {
       const { data } = await axiosClient.get("/category")
       this.desserts = data
@@ -160,7 +161,7 @@ export default defineComponent({
     loading: false,
     form: false,
     nameRules: [
-      (v: any) => !!v || "Name is required",
+      (v: any) => !!v || "ต้องระบุประเภทผลิตภัณฑ์",
       (v: string | any[]) =>
         v.length <= 50 || "Name must be less than 50 characters",
     ],

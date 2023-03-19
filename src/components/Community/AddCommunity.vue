@@ -13,8 +13,8 @@
             <v-text-field v-model="password" color="primary" label="รหัสผ่าน" variant="underlined" type="password"
               @input="clearError"></v-text-field>
 
-            <v-text-field v-model="cfPassword" color="primary" label="ยืนยันรหัสผ่าน" variant="underlined"
-              type="password" @input="clearError"></v-text-field>
+            <v-text-field v-model="cfPassword" color="primary" label="ยืนยันรหัสผ่าน" variant="underlined" type="password"
+              @input="clearError"></v-text-field>
 
             <v-text-field v-model="full_name" color="primary" label="ชื่อเต็ม" variant="underlined"></v-text-field>
           </v-container>

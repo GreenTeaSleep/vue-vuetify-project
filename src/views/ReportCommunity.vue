@@ -1,5 +1,5 @@
 <template>
-    <v-container class="fill-height mr-10">
+    <v-container class="fill-height">
         <v-card style="padding: 20px;">
             <h1>รายงานกลุ่มวิสาหกิจชุมชน</h1>
             <v-radio-group class="mt-5" v-model="radios" @change="changed" inline>
@@ -77,11 +77,15 @@ export default defineComponent({
     async mounted() {
         this.desserts.shift()
         const result = await axiosClient("/commu")
-        result.data.map((item: any, index: any) => {
-            let txt = item.person
-            if (txt != null) {
-                txt = txt.slice(0, txt.indexOf("2")) + '\n' + txt.slice(txt.indexOf("2"))
-            }
+        const result_commu = await axiosClient('/auth/users-community')
+        result.data.map((item: any) => {
+            let txt = ''
+            result_commu.data.map((item2: any) => {
+                if (item.users_commu_id == item2.users_commu_id) {
+                    if (item.person != '') return txt = `1.${item2.full_name} \n 2.${item.person}`
+                    txt = `1.${item2.full_name}`
+                }
+            })
 
             this.desserts.push({
                 name: item.name,
