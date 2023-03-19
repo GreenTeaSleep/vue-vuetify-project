@@ -82,8 +82,8 @@
             <!-- <template v-slot:item.details="{}">
                     <v-btn color="success">
                         รายละเอียด
-                                                </v-btn>
-                                            </template> -->
+                                                            </v-btn>
+                                                        </template> -->
                 <template v-slot:no-data>
                     <v-btn color="primary" @click="getAllData">
                         รีเซ็ตข้อมูล
@@ -124,11 +124,24 @@ export default {
                 key: "id",
                 sortable: false,
                 title: "ลำดับ",
+                width: '50px'
             },
-            { title: 'ชื่อ', key: 'name' },
-            { title: 'ประเภท', key: 'category' },
-            { title: 'อำเภอ', key: 'amp' },
-            { title: 'ระดับ', key: 'otop' },
+            {
+                title: 'ชื่อ', key: 'name',
+                width: '250px'
+            },
+            {
+                title: 'ประเภท', key: 'category',
+                width: '250px'
+            },
+            {
+                title: 'อำเภอ', key: 'amp',
+                width: '250px'
+            },
+            {
+                title: 'ระดับ', key: 'otop',
+                width: '250px'
+            },
             // { title: '', key: 'details', sortable: false },
         ],
         desserts: [],

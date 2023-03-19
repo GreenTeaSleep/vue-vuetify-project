@@ -3,8 +3,8 @@
   <v-app-bar color="primary" flat> <!-- density="compact" -->
     <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-app-bar-title>
-      <v-icon icon="mdi-circle-slice-4" />
-      Base Preset
+      <!-- <v-icon icon="mdi-circle-slice-4" /> -->
+      ระบบจัดการซื้อขายผลิตภัณฑ์กลุ่มวิสาหกิจชุมชนใจจังหวัดสงขลา
     </v-app-bar-title>
   </v-app-bar>
 </template>

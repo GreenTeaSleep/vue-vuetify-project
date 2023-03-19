@@ -24,7 +24,7 @@
     <template v-slot:append>
       <div class="pa-2">
         <v-btn @click="logout" :loading="loading" variant="elevated" block>
-          Logout
+          ออกจากระบบ
         </v-btn>
       </div>
     </template>

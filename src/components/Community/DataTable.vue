@@ -118,7 +118,7 @@ export default {
           sortable: false,
           title: "ลำดับ",
         },
-        { key: "name", title: "ชื่อกลุ่มวิสาหกิจชุมชน" },
+        { key: "name", title: "ชื่อกลุ่มวิสาหกิจชุมชน", width: '250px' },
         { key: "amp", title: "อำเภอ" },
         { key: "tam", title: "ตำบล" },
         { key: "actions", title: "สถานะ / แก้ไข" },

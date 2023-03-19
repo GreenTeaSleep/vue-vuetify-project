@@ -1,6 +1,6 @@
 <template>
-    <v-container class="fill-height">
-        <v-card style="padding: 20px;">
+    <v-container>
+        <v-card>
             <h1>รายงานกลุ่มวิสาหกิจชุมชน</h1>
             <v-radio-group class="mt-5" v-model="radios" @change="changed" inline>
                 <v-radio label="วิสาหกิจชุมชนทั้งหมด" value="1"></v-radio>
@@ -10,8 +10,8 @@
             </v-radio-group>
             <v-select v-if="ampToggle" variant="solo" :rules="[selected]" label="เลือกอำเภอ" :items="amp"
                 item-value="nameAMP" item-title="nameAMP"></v-select>
-            <v-data-table no-data-text="hi" v-model:items-per-page="itemsPerPage" :headers="headers" :items="desserts"
-                item-value="name" class="elevation-1 mb-5">
+            <v-data-table v-model:items-per-page="itemsPerPage" :headers="headers" :items="desserts" item-value="name"
+                class="elevation-1 mb-5">
                 <template v-slot:no-data>
                     <h4 style="color: red; margin: 20px;">ไม่มีข้อมูล</h4>
                 </template>
@@ -41,13 +41,14 @@ export default defineComponent({
                 align: 'start',
                 sortable: false,
                 key: 'name',
+                width: '300px'
             },
-            { title: 'รหัสทะเบียน', align: 'start', key: 'regisCode', sortable: false, },
-            { title: 'ที่ตั้ง', align: 'start', key: 'address', sortable: false, },
-            { title: 'อำเภอ', align: 'start', key: 'amp', sortable: false, },
-            { title: 'ตำบล', align: 'start', key: 'tam', sortable: false, },
-            { title: 'โทรศัพท์', align: 'start', key: 'mobile', sortable: false, },
-            { title: 'ผู้มีอำนาจทำการแทน', align: 'start', key: 'person', sortable: false, },
+            { title: 'รหัสทะเบียน', align: 'start', key: 'regisCode', sortable: false, width: '200px' },
+            { title: 'ที่ตั้ง', align: 'start', key: 'address', sortable: false, width: '300px' },
+            { title: 'อำเภอ', align: 'start', key: 'amp', sortable: false, width: '120px' },
+            { title: 'ตำบล', align: 'start', key: 'tam', sortable: false, width: '120px' },
+            { title: 'โทรศัพท์', align: 'start', key: 'mobile', sortable: false, width: '150px' },
+            { title: 'ผู้มีอำนาจทำการแทน', align: 'start', key: 'person', sortable: false, width: '250px' },
         ],
         desserts: [
             {
@@ -86,7 +87,8 @@ export default defineComponent({
                     txt = `1.${item2.full_name}`
                 }
             })
-
+            item.regis_code = this.acceptNumberRegisCode(item.regis_code)
+            item.mobile = this.acceptNumberMobile(item.mobile)
             this.desserts.push({
                 name: item.name,
                 regisCode: item.regis_code,
@@ -109,6 +111,17 @@ export default defineComponent({
         this.defaultDessert.shift()
     },
     methods: {
+        acceptNumberMobile(acceptMobile: any) {
+            let x: any = acceptMobile.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/)
+            const ret = !x[2] ? x[1] : x[1] + '-' + x[2] + (x[3] ? '-' + x[3] : '')
+            return ret
+        },
+        acceptNumberRegisCode(acceptRegisCode: any) {
+            let x: any = acceptRegisCode.replace(/\D/g, '').match(/(\d{0,1})(\d{0,2})(\d{0,2})(\d{0,2})(\d{0,1})(\d{0,4})/)
+            const ret = !x[1] ? x[2] : x[1] + '-' + x[2] + '-' + x[3] + '-' + x[4] + '/' + x[5] + (x[6] ? '-' + x[6] : '')
+
+            return ret
+        },
         changed(e: any) {
             let val = e.target.value
             this.desserts = []
@@ -138,7 +151,7 @@ export default defineComponent({
             this.desserts = []
             if (v != '') {
                 this.defaultDessert.map(item => {
-                    (item.amp == v) ? this.desserts.push(item) : console.log('hi')
+                    (item.amp == v) ? this.desserts.push(item) : console.log('')
                 })
             }
             return true
