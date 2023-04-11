@@ -46,7 +46,7 @@ export default defineComponent({
     open: ['Users'],
     loading: false,
     items: [
-      { icon: "mdi-view-dashboard", title: "Home", value: "home", path: "/" },
+      { icon: "mdi-view-dashboard", title: "หน้าแรก", value: "home", path: "/" },
       {
         icon: "mdi-file-document-outline",
         title: "ประเภทผลิตภัณฑ์",

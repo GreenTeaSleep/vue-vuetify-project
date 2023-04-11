@@ -1,21 +1,44 @@
+<script setup lang="ts">
+import Table from "@/components/ReportCommunity/Table.vue"
+</script>
+
 <template>
     <v-container>
         <v-card>
-            <h1>รายงานกลุ่มวิสาหกิจชุมชน</h1>
-            <v-radio-group class="mt-5" v-model="radios" @change="changed" inline>
-                <v-radio label="วิสาหกิจชุมชนทั้งหมด" value="1"></v-radio>
-                <v-radio label="วิสาหกิจชุมชนแยกตามอำเภอ" value="2"></v-radio>
-                <v-radio label="วิสาหกิจชุมชนที่อนุมัติแล้ว" value="3"></v-radio>
-                <v-radio label="วิสาหกิจชุมชนที่ยังไม่อนุมัติ" value="4"></v-radio>
-            </v-radio-group>
-            <v-select v-if="ampToggle" variant="solo" :rules="[selected]" label="เลือกอำเภอ" :items="amp"
-                item-value="nameAMP" item-title="nameAMP"></v-select>
-            <v-data-table v-model:items-per-page="itemsPerPage" :headers="headers" :items="desserts" item-value="name"
-                class="elevation-1 mb-5">
-                <template v-slot:no-data>
-                    <h4 style="color: red; margin: 20px;">ไม่มีข้อมูล</h4>
-                </template>
-            </v-data-table>
+            <v-tabs v-model="tab" bg-color="primary" @click="toggle" touchless>
+                <v-tab value="one">ทั้งหมด</v-tab>
+                <v-tab value="two">แยกตามอำเภอ</v-tab>
+                <v-tab value="three">อนุมัติแล้ว</v-tab>
+                <v-tab value="four">ยังไม่อนุมัติ</v-tab>
+            </v-tabs>
+
+            <v-window v-model="tab">
+                <v-window-item value="one">
+                    <v-card-text>
+                        <v-text-field density="compact" v-model="search" variant="solo" label="ค้นหา"
+                            append-inner-icon="mdi-magnify" single-line hide-details></v-text-field>
+                    </v-card-text>
+                    <Table :desserts="desserts" :headers="headers" :search="search" />
+                </v-window-item>
+
+                <v-window-item value="two">
+                    <v-card-text>
+                        <v-select density="compact" label="เลือกอำเภอ" :items="amp.item" variant="solo"
+                            :return-object="true" :rules="[selectAMP]" hide-details
+                            prepend-inner-icon="mdi-map-marker"></v-select>
+                    </v-card-text>
+                    <Table :desserts="desserts" :headers="headers" :search="search" />
+                </v-window-item>
+
+                <v-window-item value="three">
+                    <Table :desserts="desserts.filter(dessert => dessert.confirm_status >= 1 && dessert.confirm_status < 3)"
+                        :headers="headers" />
+                </v-window-item>
+
+                <v-window-item value="four">
+                    <Table :desserts="desserts.filter(dessert => dessert.confirm_status == 3)" :headers="headers" />
+                </v-window-item>
+            </v-window>
         </v-card>
     </v-container>
 </template>
@@ -31,18 +54,16 @@ export default defineComponent({
 
     },
     data: () => ({
+        search: '',
+        tab: 'Home',
         radios: '1',
         ampToggle: false,
-        amp: [{ id: 0, nameAMP: "" }],
+        amp: { name: 'อำเภอ', item: [''] },
+        selected_AMP: { id: "", nameAMP: "อำเภอ" },
+        ampSelected: "",
         itemsPerPage: 10,
         headers: [
-            {
-                title: 'ชื่อวิสาหกิจชุมชน',
-                align: 'start',
-                sortable: false,
-                key: 'name',
-                width: '300px'
-            },
+            { title: 'ชื่อวิสาหกิจชุมชน', align: 'start', sortable: false, key: 'name', width: '300px' },
             { title: 'รหัสทะเบียน', align: 'start', key: 'regisCode', sortable: false, width: '200px' },
             { title: 'ที่ตั้ง', align: 'start', key: 'address', sortable: false, width: '300px' },
             { title: 'อำเภอ', align: 'start', key: 'amp', sortable: false, width: '120px' },
@@ -73,7 +94,7 @@ export default defineComponent({
                 person: '',
                 confirm_status: 0,
             },
-        ]
+        ],
     }),
     async mounted() {
         this.desserts.shift()
@@ -101,14 +122,11 @@ export default defineComponent({
             })
         })
         getAmphure().filter(item => {
-            this.amp.push({
-                id: item.id,
-                nameAMP: item.name_th
-            })
+            this.amp.item.push(item.name_th)
         })
-        this.defaultDessert = this.desserts
-        this.amp.shift()
         this.defaultDessert.shift()
+        this.defaultDessert = this.desserts
+        this.amp.item.shift()
     },
     methods: {
         acceptNumberMobile(acceptMobile: any) {
@@ -122,40 +140,20 @@ export default defineComponent({
 
             return ret
         },
-        changed(e: any) {
-            let val = e.target.value
-            this.desserts = []
-            if (val == 2) {
-                this.ampToggle = true
-            } else if (val == 3) {
-                this.ampToggle = false
-                this.defaultDessert.map(item => {
-                    if (item.confirm_status > 0) {
-                        this.desserts.push(item)
-                    }
-                })
-            } else if (val == 4) {
-                this.defaultDessert.map(item => {
-                    if (item.confirm_status == 0) {
-                        this.desserts.push(item)
-                    }
-                })
-                this.ampToggle = false
-            } else {
-                this.ampToggle = false
-                this.desserts = this.defaultDessert
-            }
-        },
-        selected(v: any) {
-            console.log(v)
-            this.desserts = []
-            if (v != '') {
-                this.defaultDessert.map(item => {
-                    (item.amp == v) ? this.desserts.push(item) : console.log('')
-                })
-            }
+        async fetchAMP(v: any) {
+            this.ampSelected = v.nameAMP
+            console.log(this.ampSelected)
+            this.desserts = this.defaultDessert
+            this.desserts = this.desserts.filter(dessert => dessert.amp == this.ampSelected)
             return true
-        }
+        },
+        toggle() {
+            this.desserts = this.defaultDessert
+        },
+        selectAMP(v: any) {
+            this.desserts = this.defaultDessert.filter((dessert: any) => dessert.amp == v)
+            return true
+        },
     }
 })
 </script>
@@ -164,5 +162,9 @@ export default defineComponent({
 td {
     white-space: pre-line;
     word-break: break-all;
+}
+
+.v-table__wrapper {
+    padding-bottom: 20px;
 }
 </style>

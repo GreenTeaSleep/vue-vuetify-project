@@ -63,10 +63,10 @@ tr:hover {
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue-darken-1" variant="text" @click="close">
-                  Cancel
+                  ยกเลิก
                 </v-btn>
                 <v-btn color="blue-darken-1" variant="text" @click="save(editedItem.commu_id)">
-                  Save
+                  บันทึก
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -86,8 +86,9 @@ tr:hover {
           </v-switch>
         </div>
         <div v-else>
-          <BTNDetail :commu_id="item.raw.commu_id" :name="item.raw.name" :address="item.raw.address"
-            :mobile="item.raw.mobile" :regis_code="item.raw.regis_code" :comfirm_status="item.raw.confirm_status" />
+          <BTNDetail :commu_id="item.raw.commu_id" :name="item.raw.name" :full_name="item.raw.full_name"
+            :person="item.raw.person" :address="item.raw.address" :mobile="item.raw.mobile"
+            :regis_code="item.raw.regis_code" :comfirm_status="item.raw.confirm_status" />
         </div>
       </template>
     </v-data-table>
@@ -127,6 +128,7 @@ export default {
         {
           id: 0,
           name: "",
+          full_name: '',
           person: '',
           amp: "",
           tam: "",
@@ -176,6 +178,7 @@ export default {
           {
             id: 0,
             name: "",
+            full_name: '',
             person: "",
             amp: "",
             tam: "",
@@ -189,9 +192,11 @@ export default {
         this.desserts.shift()
         const result = await axiosClient("/commu")
         result.data.filter(async (item: any, index: any) => {
+          let userCommu = await axiosClient.get('/auth/users-community/' + item.commu_id)
           this.desserts.push({
             id: index + 1,
             name: item.name,
+            full_name: userCommu.data.full_name,
             person: item.person,
             amp: item.amp,
             tam: item.tam,
@@ -223,6 +228,7 @@ export default {
         password: "",
         cfPassword: "",
         full_name: dataUserCommu.data.full_name,
+        person: dataUserCommu.data.person,
         name: dataCommu.data.name,
         address: dataCommu.data.address,
         mobile: dataCommu.data.mobile,

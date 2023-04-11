@@ -4,12 +4,9 @@
       <v-alert type="error">{{ err }}</v-alert>
     </v-container>
     <v-container class="d-flex align-center">
-
       <v-row dense>
-
         <v-col cols="12" sm="12" md="6">
-
-          <v-card width="90%" class="mx-auto" title="ข้อมูลผู้ใช้">
+          <v-card title="ข้อมูลผู้ใช้">
             <v-container>
 
               <v-text-field v-model="username" color="primary" label="ชื่อผู้ใช้ (จำเป็น)" variant="underlined"
@@ -30,7 +27,7 @@
           </v-card>
         </v-col>
         <v-col cols="12" sm="12" md="6">
-          <v-card width="90%" class="mx-auto" title="ข้อมูลกลุ่มวิสาหกิจชุมชน">
+          <v-card title="ข้อมูลกลุ่มวิสาหกิจชุมชน">
             <v-container>
               <v-text-field v-model="name" color="primary" label="ชื่อวิสาหกิจชุมชน (จำเป็น)" variant="underlined"
                 :rules="rules" :counter="100"></v-text-field>
