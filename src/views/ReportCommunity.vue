@@ -45,62 +45,49 @@ import Table from "@/components/ReportCommunity/Table.vue"
   
 <script lang="ts">
 import axiosClient from "@/utils/axios"
-import { defineComponent } from "vue"
+import { defineComponent, ref } from "vue"
 import { getAmphure } from '@/assets/functions/fetchAreaSongkhla.js'
 
-export default defineComponent({
-    props: [],
-    components: {
+interface Person {
+    id: number,
+    name: string,
+    regisCode: string,
+    address: string,
+    mobile: string,
+    amp: string,
+    tam: string,
+    person: string,
+    confirm_status: number,
+}
 
+export default defineComponent({
+    data() {
+        let desserts = ref<Person[]>([])
+        let defaultDessert = ref<Person[]>([])
+        return {
+            search: '',
+            tab: 'Home',
+            amp: { name: 'อำเภอ', item: [''] },
+            ampSelected: "",
+            headers: [
+                { title: "ลำดับ", align: "start", key: "id", sortable: false, width: '50px' },
+                { title: 'ชื่อวิสาหกิจชุมชน', align: 'start', sortable: false, key: 'name', width: '300px' },
+                { title: 'รหัสทะเบียน', align: 'start', key: 'regisCode', sortable: false, width: '200px' },
+                { title: 'ที่ตั้ง', align: 'start', key: 'address', sortable: false, width: '300px' },
+                { title: 'อำเภอ', align: 'start', key: 'amp', sortable: false, width: '120px' },
+                { title: 'ตำบล', align: 'start', key: 'tam', sortable: false, width: '120px' },
+                { title: 'โทรศัพท์', align: 'start', key: 'mobile', sortable: false, width: '150px' },
+                { title: 'ผู้มีอำนาจทำการแทน', align: 'start', key: 'person', sortable: false, width: '250px' },
+            ],
+            desserts,
+            defaultDessert,
+        }
     },
-    data: () => ({
-        search: '',
-        tab: 'Home',
-        radios: '1',
-        ampToggle: false,
-        amp: { name: 'อำเภอ', item: [''] },
-        selected_AMP: { id: "", nameAMP: "อำเภอ" },
-        ampSelected: "",
-        itemsPerPage: 10,
-        headers: [
-            { title: 'ชื่อวิสาหกิจชุมชน', align: 'start', sortable: false, key: 'name', width: '300px' },
-            { title: 'รหัสทะเบียน', align: 'start', key: 'regisCode', sortable: false, width: '200px' },
-            { title: 'ที่ตั้ง', align: 'start', key: 'address', sortable: false, width: '300px' },
-            { title: 'อำเภอ', align: 'start', key: 'amp', sortable: false, width: '120px' },
-            { title: 'ตำบล', align: 'start', key: 'tam', sortable: false, width: '120px' },
-            { title: 'โทรศัพท์', align: 'start', key: 'mobile', sortable: false, width: '150px' },
-            { title: 'ผู้มีอำนาจทำการแทน', align: 'start', key: 'person', sortable: false, width: '250px' },
-        ],
-        desserts: [
-            {
-                name: '',
-                regisCode: '',
-                address: '',
-                mobile: '',
-                amp: '',
-                tam: '',
-                person: '',
-                confirm_status: 0,
-            },
-        ],
-        defaultDessert: [
-            {
-                name: '',
-                regisCode: '',
-                address: '',
-                mobile: '',
-                amp: '',
-                tam: '',
-                person: '',
-                confirm_status: 0,
-            },
-        ],
-    }),
     async mounted() {
         this.desserts.shift()
         const result = await axiosClient("/commu")
         const result_commu = await axiosClient('/auth/users-community')
-        result.data.map((item: any) => {
+        result.data.map((item: any, index: any) => {
             let txt = ''
             result_commu.data.map((item2: any) => {
                 if (item.users_commu_id == item2.users_commu_id) {
@@ -111,6 +98,7 @@ export default defineComponent({
             item.regis_code = this.acceptNumberRegisCode(item.regis_code)
             item.mobile = this.acceptNumberMobile(item.mobile)
             this.desserts.push({
+                id: index + 1,
                 name: item.name,
                 regisCode: item.regis_code,
                 address: item.address,
