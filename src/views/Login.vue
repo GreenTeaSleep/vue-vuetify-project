@@ -4,7 +4,7 @@
       <div class="text-center">
         <v-avatar rounded="1" size="100" color="blue-darken-2">
           <v-avatar color="grey" size="100" rounded="0">
-            <v-img cover src="../../../public/f3281355.ico"></v-img>
+            <v-img cover src="@/assets/f3281355.ico"></v-img>
           </v-avatar>
         </v-avatar>
         <v-list-item class="text-white" title="Yanfei" subtitle="Pyro"></v-list-item>
