@@ -15,6 +15,7 @@ export const useAuthStore = defineStore({
                 username,
                 password
             })
+            console.log(axiosClient.getUri())
 
             if (user.data.msg) return user.data.msg
 
