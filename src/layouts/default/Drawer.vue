@@ -48,7 +48,7 @@ export default defineComponent({
     items: [
       { icon: "mdi-view-dashboard", title: "หน้าแรก", value: "home", path: "/" },
       {
-        icon: "mdi-file-document-outline",
+        icon: "mdi-list-box",
         title: "ประเภทผลิตภัณฑ์",
         value: "category",
         path: "/category",

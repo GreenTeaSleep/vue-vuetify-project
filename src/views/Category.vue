@@ -107,7 +107,7 @@ export default defineComponent({
         key: 'index',
       },
       { title: 'ชื่อประเภท', align: 'start', key: 'name' },
-      { title: 'แก้ไข / ลบ', align: 'start', key: 'actions', sortable: false },
+      { title: '', align: 'start', key: 'actions', sortable: false },
     ],
     desserts: [{ index: 0, category_id: 0, name: '' }],
     name: "",
@@ -191,6 +191,7 @@ export default defineComponent({
       } catch (error: any) {
         console.log(error.response.data)
         alert('ชื่อประเภทนี้มีอยู่แล้ว')
+        this.loading = false
       }
     },
   },

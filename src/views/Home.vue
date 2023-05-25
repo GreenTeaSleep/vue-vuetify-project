@@ -16,7 +16,7 @@
                   <v-icon icon="mdi-account-group" size="x-large"></v-icon>
                 </v-col>
                 <v-col sm="6">
-                  <h1>20</h1>
+                  <h1>{{ communityLength }}</h1>
                   <h4>กลุ่มวิสาหกิจชุมชน</h4>
                 </v-col>
               </v-row>
@@ -32,10 +32,10 @@
             <v-card-title class="mt-5">
               <v-row class="d-flex align-center">
                 <v-col sm="6">
-                  <v-icon icon="mdi-file-document-outline" size="x-large"></v-icon>
+                  <v-icon icon="mdi-list-box" size="x-large"></v-icon>
                 </v-col>
                 <v-col sm="6">
-                  <h1>20</h1>
+                  <h1>{{ categoryLength }}</h1>
                   <h4>ประเภทผลิตภัณฑ์</h4>
                 </v-col>
               </v-row>
@@ -54,7 +54,7 @@
                   <v-icon icon="mdi-cart-outline" size="x-large"></v-icon>
                 </v-col>
                 <v-col sm="6">
-                  <h1>20</h1>
+                  <h1>{{ productsLength }}</h1>
                   <h4>ผลิตภัณฑ์</h4>
                 </v-col>
               </v-row>
@@ -72,15 +72,35 @@
 
 
 <script lang="ts">
+import axiosClient from '@/utils/axios'
+import { defineComponent } from 'vue'
 
-export default {
-
-  methods: {
-    test() {
-      alert('Hello')
+export default defineComponent({
+  data() {
+    return {
+      productsLength: 0,
+      communityLength: 0,
+      categoryLength: 0,
     }
+  },
+  methods: {
+    async getProducts() {
+      const products = await axiosClient.get('/products')
+      this.productsLength = products.data.length
+    },
+    async getCategory() {
+      const category = await axiosClient.get('/category')
+      this.categoryLength = category.data.length
+    },
+    async getCommunity() {
+      const community = await axiosClient.get('/commu')
+      this.communityLength = community.data.length
+    },
+  },
+  mounted() {
+    this.getProducts()
+    this.getCategory()
+    this.getCommunity()
   }
-
-}
-
+})
 </script>

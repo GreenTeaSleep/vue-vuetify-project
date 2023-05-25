@@ -1,7 +1,7 @@
 <template>
     <v-list-group value="Users">
         <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" prepend-icon="mdi-alert" title="รายงาน">
+            <v-list-item v-bind="props" prepend-icon="mdi-newspaper-variant" title="รายงาน">
             </v-list-item>
         </template>
 

@@ -4,7 +4,7 @@
       <tr>
         <th class="text-left">ลำดับ</th>
         <th class="text-left">ชื่อกลุ่มวิสาหกิจชุมชน</th>
-        <th class="text-left">สถานะ / แก้ไข</th>
+        <th class="text-left"></th>
       </tr>
     </thead>
     <tbody>

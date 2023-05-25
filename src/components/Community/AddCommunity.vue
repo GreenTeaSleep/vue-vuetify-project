@@ -1,6 +1,6 @@
 <template>
   <v-form @submit.prevent="signUp">
-    <v-container v-if="err">
+    <v-container v-if="err == '58'">
       <v-alert type="error">{{ err }}</v-alert>
     </v-container>
     <v-container class="d-flex align-center">
@@ -121,7 +121,10 @@ export default defineComponent({
       return ''
     },
     async signUp() {
-      if (this.checkInput() == 0) return this.err = 'กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน'
+      if (this.checkInput() == 0) {
+        alert('กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน')
+        return this.err = 'กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน'
+      }
       this.err = ''
       if (this.password != this.cfPassword) return (this.err = "รหัสผ่านไม่ตรงกัน")
 
@@ -146,8 +149,14 @@ export default defineComponent({
         this.$router.go(0)
       } catch (error: any) {
         console.log(error.response.data)
-        if (error.response.data.err == 'This commu already exists.') return this.err = 'ผู้ชื่อวิสาหกิจชุมชนนี้มีอยู่แล้ว'
-        if (error.response.data.err == 'This user commu already exists.') return this.err = 'ผู้ใช้นี้มีอยู่แล้ว'
+        if (error.response.data.err == 'This commu already exists.') {
+          alert('ผู้ชื่อวิสาหกิจชุมชนนี้มีอยู่แล้ว')
+          return this.err = 'ผู้ชื่อวิสาหกิจชุมชนนี้มีอยู่แล้ว'
+        }
+        if (error.response.data.err == 'This user commu already exists.') {
+          alert('ผู้ใช้นี้มีอยู่แล้ว')
+          return this.err = 'ผู้ใช้นี้มีอยู่แล้ว'
+        }
       }
     },
     clearError() {

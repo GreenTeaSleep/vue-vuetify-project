@@ -75,6 +75,7 @@ export default {
             { align: "start", key: "id", sortable: false, title: "ลำดับ", width: '50px' },
             { title: 'ชื่อ', key: 'name', width: '250px' },
             { title: 'ประเภท', key: 'category', width: '250px' },
+            { title: 'ชื่อวิสาหกิจชุมชน', key: 'community_name', width: '250px' },
             { title: 'อำเภอ', key: 'amp', width: '250px' },
             { title: 'ระดับ', key: 'otop', width: '250px' },
         ],
@@ -95,8 +96,9 @@ export default {
             this.desserts = data.map((item: any, id: any) => {
                 return {
                     id: id + 1,
-                    name: item.name,
-                    category: item.category,
+                    name: item.productname,
+                    community_name: item.communame,
+                    category: item.categoryname,
                     amp: item.amp,
                     otop: + item.otop,
                 }

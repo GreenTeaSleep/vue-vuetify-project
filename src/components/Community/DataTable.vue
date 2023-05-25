@@ -35,40 +35,47 @@ tr:hover {
 
           <v-dialog v-model="dialog" max-width="960px">
             <v-card>
-              <v-toolbar color="primary" :title="'รายละเอียดวิสาหกิจชุมชน ' + editedItem.commu_id"></v-toolbar>
+              <v-form @submit.prevent="save(editedItem.commu_id)">
 
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="6">
-                      <v-text-field v-model="editedItem.username" label="ชื่อผู้ใช้" disabled></v-text-field>
-                      <v-text-field v-model="editedItem.password" @input="checkPasswordMatch"
-                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show1 = !show1"
-                        :type="show1 ? 'text' : 'password'" label="รหัสผ่าน"></v-text-field>
-                      <v-text-field v-model="editedItem.cfPassword" @input="checkPasswordMatch"
-                        :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show2 = !show2"
-                        :type="show2 ? 'text' : 'password'" label="ยืนยันรหัสผ่าน"></v-text-field>
-                      <v-text-field v-model="editedItem.full_name" label="ชื่อเต็ม"></v-text-field>
-                    </v-col>
-                    <v-col cols="6">
-                      <v-text-field v-model="editedItem.name" label="ชื่อกลุ่มวิสาหกิจชุมชน"></v-text-field>
-                      <v-text-field v-model="editedItem.address" label="ที่อยู่"></v-text-field>
-                      <v-text-field v-model="editedItem.mobile" label="โทรศัพท์"></v-text-field>
-                      <v-text-field v-model="editedItem.regis_code" label="รหัสทะเบียน"></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
+                <v-toolbar color="primary" :title="'รายละเอียดวิสาหกิจชุมชน ' + editedItem.commu_id"></v-toolbar>
 
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue-darken-1" variant="text" @click="close">
-                  ยกเลิก
-                </v-btn>
-                <v-btn color="blue-darken-1" variant="text" @click="save(editedItem.commu_id)">
-                  บันทึก
-                </v-btn>
-              </v-card-actions>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="6">
+                        <v-text-field v-model="editedItem.username" label="ชื่อผู้ใช้" disabled></v-text-field>
+                        <v-text-field v-model="editedItem.password" @input="checkPasswordMatch"
+                          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show1 = !show1"
+                          :type="show1 ? 'text' : 'password'" label="รหัสผ่าน"></v-text-field>
+                        <v-text-field v-model="editedItem.cfPassword" @input="checkPasswordMatch"
+                          :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show2 = !show2"
+                          :type="show2 ? 'text' : 'password'" label="ยืนยันรหัสผ่าน"></v-text-field>
+                        <v-text-field :rules="nameRules" v-model="editedItem.full_name" label="ชื่อเต็ม"></v-text-field>
+                        <v-text-field v-model="editedItem.person" label="ผู้มีอำนาจทำการแทน"></v-text-field>
+                      </v-col>
+                      <v-col cols="6">
+                        <v-text-field :rules="nameRules" v-model="editedItem.name"
+                          label="ชื่อกลุ่มวิสาหกิจชุมชน"></v-text-field>
+                        <v-text-field :rules="nameRules" v-model="editedItem.address" label="ที่อยู่"></v-text-field>
+                        <v-text-field :rules="nameRules" v-model="editedItem.mobile" label="โทรศัพท์"></v-text-field>
+                        <v-text-field :rules="nameRules" v-model="editedItem.regis_code"
+                          label="รหัสทะเบียน"></v-text-field>
+                      </v-col>
+                    </v-row>
+
+                  </v-container>
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue-darken-1" variant="text" @click="close">
+                    ยกเลิก
+                  </v-btn>
+                  <v-btn type="submit" color="blue-darken-1" variant="text">
+                    บันทึก
+                  </v-btn>
+                </v-card-actions>
+              </v-form>
             </v-card>
           </v-dialog>
         </v-toolbar>
@@ -105,6 +112,13 @@ export default {
   },
   data() {
     return {
+      nameRules: [
+        (value: any) => {
+          if (value) return true
+
+          return 'ต้องระบุ.'
+        },
+      ],
       search: "",
       err: "",
       errPassword: "",
@@ -123,7 +137,7 @@ export default {
         { key: "name", title: "ชื่อกลุ่มวิสาหกิจชุมชน", width: '350px' },
         { key: "amp", title: "อำเภอ" },
         { key: "tam", title: "ตำบล" },
-        { key: "actions", title: "สถานะ / แก้ไข" },
+        { key: "actions", title: "" },
       ],
       desserts: [
         {
@@ -144,6 +158,7 @@ export default {
       editedItem: {
         commu_id: 0,
         username: "",
+        person: "",
         password: "",
         cfPassword: "",
         full_name: "",
@@ -158,6 +173,7 @@ export default {
   mounted() {
     this.initialize()
     this.fetchAMP()
+
   },
   methods: {
     async changeStatus(id: any, confirm_status: any) {
@@ -258,6 +274,7 @@ export default {
         name: this.editedItem.name,
         address: this.editedItem.address,
         mobile: this.editedItem.mobile,
+        person: this.editedItem.person,
         regis_code: this.editedItem.regis_code,
       })
       await axiosClient.put(`/auth/users-community/` + _id, {
@@ -302,4 +319,3 @@ export default {
   },
 }
 </script>
-
