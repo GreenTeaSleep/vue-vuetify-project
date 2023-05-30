@@ -209,11 +209,12 @@ export default {
         this.desserts.shift()
         const result = await axiosClient("/commu")
         result.data.filter(async (item: any, index: any) => {
-          let userCommu = await axiosClient.get('/auth/users-community/' + item.commu_id)
+          const userCommu = await axiosClient.get('/auth/users-community/' + item.users_commu_id)
+          console.log(item)
           this.desserts.push({
             id: index + 1,
             name: item.name,
-            full_name: userCommu.data.full_name,
+            full_name: await userCommu.data.full_name,
             person: item.person,
             amp: item.amp,
             tam: item.tam,
@@ -224,6 +225,7 @@ export default {
             regis_code: item.regis_code,
           })
         })
+        console.log(this.desserts)
         this.err = ""
       } catch (err: any) {
         console.log("ERROR:")

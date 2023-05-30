@@ -106,7 +106,8 @@ export default defineComponent({
       let x: any = this.acceptRegisCode.replace(/\D/g, '').match(/(\d{0,1})(\d{0,2})(\d{0,2})(\d{0,2})(\d{0,1})(\d{0,4})/)
       this.acceptRegisCode = !x[1] ? x[2] : x[1] + '-' + x[2] + '-' + x[3] + '-' + x[4] + '/' + x[5] + (x[6] ? '-' + x[6] : '')
 
-      this.regis_code = (this.acceptRegisCode).replace(/[^0-9.]+/g, "")
+      this.regis_code = this.acceptRegisCode
+      // console.log(this.regis_code)
     },
     async fetchAMP(v: any) {
       this.selected_TAM = { id: "", nameTAM: "ตำบล" }
