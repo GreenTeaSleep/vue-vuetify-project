@@ -127,7 +127,7 @@ export default defineComponent({
         return this.err = 'กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน'
       }
       this.err = ''
-      if (this.password != this.cfPassword) return (this.err = "รหัสผ่านไม่ตรงกัน")
+      if (this.password != this.cfPassword) return alert("รหัสผ่านไม่ตรงกัน")
 
       const dataCommu = {
         username: this.username,
