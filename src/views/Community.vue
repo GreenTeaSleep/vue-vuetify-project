@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fill-height mr-10">
+  <v-container>
     <v-card>
       <v-tabs v-model="tab" bg-color="primary">
         <v-tab v-for="item in items" :key="item.tab" :value="item.tab" :prepend-icon="item.icon">{{ item.title }}</v-tab>

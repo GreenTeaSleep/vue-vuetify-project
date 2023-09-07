@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/valid-v-slot -->
 <template>
-  <v-container class="fill-height">
+  <v-container>
     <v-card>
       <v-tabs v-model="tab" bg-color="primary">
         <v-tab prepend-icon="mdi-file-document-outline" value="one">ประเภทผลิตภัณฑ์</v-tab>
