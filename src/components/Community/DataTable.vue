@@ -20,12 +20,12 @@ tr:hover {
     <v-btn color="primary" @click="initialize"> Reset </v-btn>
   </v-container>
   <v-card>
-    <v-data-table :headers="headers" :items="desserts" :search="search">
+    <v-data-table :headers="headers" :items="desserts" :search="onInputSearch">
       <template v-slot:top>
         <v-toolbar flat>
           <v-card-text>
-            <v-text-field v-model="search" density="compact" variant="solo" label="ค้นหา" append-inner-icon="mdi-magnify"
-              single-line hide-details></v-text-field>
+            <v-text-field v-model="onInputSearch" density="compact" variant="solo" label="ค้นหา"
+              append-inner-icon="mdi-magnify" single-line hide-details></v-text-field>
           </v-card-text>
           <v-card-text>
             <v-select v-model="selected_AMP" density="compact" :items="amp" variant="solo" item-title="nameAMP"
@@ -120,6 +120,7 @@ export default {
         },
       ],
       search: "",
+      onInputSearch: "",
       err: "",
       errPassword: "",
       show1: false,
